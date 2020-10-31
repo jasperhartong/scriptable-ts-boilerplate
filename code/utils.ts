@@ -25,10 +25,14 @@ async function getSecret(): Promise<string | undefined> {
 }
 
 async function getData<T>(url: string): Promise<Response<T>> {
-    const req = new Request(url)
-    let response: Response<T> = await req.loadJSON()
-
-    return response
+    try {
+        const req = new Request(url)
+        const response: Response<T> = await req.loadJSON()
+        return response
+    } catch (error) {
+        handleError("2002")
+        throw Error(error)
+    }
 }
 
 async function getDataWithSecret<T>(createUrl: (secret?: string) => string): Promise<Response<T>> {
@@ -67,12 +71,12 @@ function createTextWidget(pretitle: string, title: string, subtitle: string, col
 }
 
 
-function presentErrorWidget() {
+function presentErrorWidget(code: string) {
     const widget = createTextWidget("EMIT/TIME", "No data", "Did you set the right secret in the parameter field?", "#000")
     Script.setWidget(widget)
 }
 
-async function presentErrorAlert() {
+async function presentErrorAlert(code: string) {
     const alert = new Alert();
     alert.title = "Emit/Time Error";
     alert.message = "Did you enter the right secret?"
@@ -80,12 +84,12 @@ async function presentErrorAlert() {
     return await alert.presentAlert();
 }
 
-async function handleError() {
+async function handleError(code: string = "") {
     if (config.runsInWidget) {
-        presentErrorWidget()
+        presentErrorWidget(code)
     }
     if (config.runsInApp) {
-        await presentErrorAlert()
+        await presentErrorAlert(code)
     }
     Script.complete();
 }
