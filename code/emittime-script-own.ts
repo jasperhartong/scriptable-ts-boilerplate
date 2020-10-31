@@ -2,7 +2,7 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-green; icon-glyph: user-md;
 
-import { createErrorWidget, createTextWidget, getDataWithSecret, presentErrorWidget } from "./utils";
+import { createTextWidget, getDataWithSecret, handleError } from "./utils";
 
 interface WidgetFields {
     pretitle: string;
@@ -12,20 +12,18 @@ interface WidgetFields {
 }
 
 getDataWithSecret<WidgetFields>(secret => `http://macbook-pro.local:3000/api/ios-widgets/${secret}/own`)
-    .then(async (r) => {
-        if (config.runsInWidget) {
-            const widget = r.ok
-                ? createTextWidget(r.data.pretitle, r.data.title, r.data.subtitle, r.data.color)
-                : createErrorWidget();
+    .then(async (response) => {
+        if (!response.ok) {
+            return await handleError()
+        }
+        const { pretitle, title, subtitle, color } = response.data
 
+        if (config.runsInWidget) {
+            const widget = createTextWidget(pretitle, title, subtitle, color)
             Script.setWidget(widget)
             Script.complete()
         } else {
-            if (!r.ok) {
-                return await presentErrorWidget()
-            }
 
-            const { pretitle, title, subtitle, color } = r.data
             // make table
             let table = new UITable()
 

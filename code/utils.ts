@@ -1,4 +1,13 @@
-import { Response } from "./interfaces";
+export interface ErrorData {
+    ok: false;
+}
+
+export interface SuccessData<T> {
+    ok: true;
+    data: T
+}
+
+export type Response<T> = SuccessData<T> | ErrorData
 
 async function getSecret(): Promise<string | undefined> {
     let secret = args.widgetParameter;
@@ -27,9 +36,7 @@ async function getDataWithSecret<T>(createUrl: (secret?: string) => string): Pro
     return getData<T>(createUrl(secret));
 }
 
-function createErrorWidget() {
-    return createTextWidget("EMIT/TIME", "No data", "Did you set the right secret in the parameter field?", "#000")
-}
+
 
 
 function createTextWidget(pretitle: string, title: string, subtitle: string, color: string) {
@@ -59,7 +66,13 @@ function createTextWidget(pretitle: string, title: string, subtitle: string, col
     return w
 }
 
-async function presentErrorWidget() {
+
+function presentErrorWidget() {
+    const widget = createTextWidget("EMIT/TIME", "No data", "Did you set the right secret in the parameter field?", "#000")
+    Script.setWidget(widget)
+}
+
+async function presentErrorAlert() {
     const alert = new Alert();
     alert.title = "Emit/Time Error";
     alert.message = "Did you enter the right secret?"
@@ -67,6 +80,17 @@ async function presentErrorWidget() {
     return await alert.presentAlert();
 }
 
-export { getDataWithSecret, createTextWidget, createErrorWidget, presentErrorWidget };
+async function handleError() {
+    if (config.runsInWidget) {
+        presentErrorWidget()
+    }
+    if (config.runsInApp) {
+        await presentErrorAlert()
+    }
+    Script.complete();
+}
+
+
+export { getDataWithSecret, createTextWidget, handleError };
 
 
