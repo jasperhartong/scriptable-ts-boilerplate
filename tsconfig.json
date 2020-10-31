@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "target": "ES2018",
+        "lib": [
+            "ES2018"
+        ],
+        "baseUrl": "./",
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": false,
+        "strictNullChecks": true,
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": false,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": false,
+        "jsx": "preserve",
+        "incremental": true,
+        "outDir": "bin"
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "code/*.ts",
+    ]
+}

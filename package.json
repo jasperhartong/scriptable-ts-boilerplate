@@ -1,0 +1,19 @@
+{
+  "name": "scriptable",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "eslintConfig": {
+    "extends": "@scriptable-ios"
+  },
+  "devDependencies": {
+    "@scriptable-ios/eslint-config": "file:eslint-config",
+    "eslint": "latest",
+    "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "@types/scriptable-ios": "^1.5.0"
+  }
+}
