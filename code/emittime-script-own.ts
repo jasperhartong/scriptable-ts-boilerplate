@@ -2,6 +2,8 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-green; icon-glyph: user-md;
 
+import { getSecret } from "./utils"
+
 interface WidgetFields {
     pretitle: string;
     title: string;
@@ -11,43 +13,36 @@ interface WidgetFields {
 
 type ResponseData = { ok: false } | { ok: true, data: WidgetFields }
 
-const secret = getSecret();
-
-const url = `http://macbook-pro.local:3000/api/ios-widgets/${secret}/own`
-const req = new Request(url)
-// @ts-ignore
-let response: ResponseData = await req.loadJSON()
-if (!response.ok) {
-    throw Error(`No data: ${JSON.stringify(response)}. Secret: ${secret}`)
-}
-
-const { pretitle, title, subtitle, color } = response.data;
-
-if (config.runsInWidget) {
-    // create and show widget
-    let widget = createWidget(pretitle, title, subtitle, color)
-    Script.setWidget(widget)
-    Script.complete()
-} else {
-    // make table
-    let table = new UITable()
+getSecret()
+    .then(secret => getOwnData(secret)
+        .then(({ pretitle, title, subtitle, color }) => {
+            if (config.runsInWidget) {
+                // create and show widget
+                let widget = createWidget(pretitle, title, subtitle, color)
+                Script.setWidget(widget)
+                Script.complete()
+            } else {
+                // make table
+                let table = new UITable()
 
 
-    // add header
-    let row = new UITableRow()
-    row.isHeader = true
-    row.addText(`Emit/Time`)
-    table.addRow(row)
+                // add header
+                let row = new UITableRow()
+                row.isHeader = true
+                row.addText(`Emit/Time`)
+                table.addRow(row)
 
-    // fill data
-    table.addRow(createRow(title, 0))
+                // fill data
+                table.addRow(createRow(title, 0))
 
-    if (config.runsWithSiri)
-        Speech.speak(`${title}`)
+                if (config.runsWithSiri)
+                    Speech.speak(`${title}`)
 
-    // present table
-    table.present()
-}
+                // present table
+                table.present()
+            }
+        }))
+
 
 function createRow(title: string, number: number) {
     let row = new UITableRow()
@@ -84,18 +79,14 @@ function createWidget(pretitle: string, title: string, subtitle: string, color: 
     return w
 }
 
-function getSecret() {
-    let secret = args.widgetParameter;
+async function getOwnData(secret?: string): Promise<WidgetFields> {
+    const url = `http://macbook-pro.local:3000/api/ios-widgets/${secret}/own`
+    const req = new Request(url)
 
-    if (!secret) {
-        const alert = new Alert();
-        alert.title = "Fill in secret";
-        alert.message = "The secret can also be filled in the parameter field of the widget settings (tap on widget in wiggle mode)";
-        alert.addSecureTextField("secret")
-        alert.addAction("Done")
-        // @ts-ignore
-        await alert.presentAlert()
-        secret = alert.textFieldValue(0)
+    let response: ResponseData = await req.loadJSON()
+    if (!response.ok) {
+        throw Error(`No data: ${JSON.stringify(response)}. Secret: ${secret}`)
     }
-    return secret;
+
+    return response.data
 }

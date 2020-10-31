@@ -2,15 +2,18 @@
   "name": "scriptable",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc",
+    "build": "rollup --config rollup.config.js",
     "watch": "tsc --watch"
   },
   "eslintConfig": {
     "extends": "@scriptable-ios"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^6.1.0",
     "@scriptable-ios/eslint-config": "file:eslint-config",
     "eslint": "latest",
+    "rollup": "^2.32.1",
+    "tslib": "^2.0.3",
     "typescript": "^4.0.5"
   },
   "dependencies": {
