@@ -11,14 +11,14 @@ interface WidgetFields {
 
 type ResponseData = { ok: false } | { ok: true, data: WidgetFields }
 
-const secret = args.widgetParameter
+const secret = getSecret();
 
 const url = `http://macbook-pro.local:3000/api/ios-widgets/${secret}/own`
 const req = new Request(url)
 // @ts-ignore
 let response: ResponseData = await req.loadJSON()
 if (!response.ok) {
-    throw Error("No data")
+    throw Error(`No data: ${JSON.stringify(response)}. Secret: ${secret}`)
 }
 
 const { pretitle, title, subtitle, color } = response.data;
@@ -82,4 +82,20 @@ function createWidget(pretitle: string, title: string, subtitle: string, color: 
     a.textOpacity = 0.8
     a.font = Font.systemFont(12)
     return w
+}
+
+function getSecret() {
+    let secret = args.widgetParameter;
+
+    if (!secret) {
+        const alert = new Alert();
+        alert.title = "Fill in secret";
+        alert.message = "The secret can also be filled in the parameter field of the widget settings (tap on widget in wiggle mode)";
+        alert.addSecureTextField("secret")
+        alert.addAction("Done")
+        // @ts-ignore
+        await alert.presentAlert()
+        secret = alert.textFieldValue(0)
+    }
+    return secret;
 }
