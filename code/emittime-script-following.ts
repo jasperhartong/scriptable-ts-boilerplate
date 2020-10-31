@@ -20,7 +20,7 @@ interface FollowingData {
     }[];
 }
 
-getDataWithSecret<FollowingData>(secret => `http://macbook-pro.local:3000/api/ios-widgets/${secret}/following`)
+getDataWithSecret<FollowingData>(secret => `https://emittime.app/api/ios-widgets/${secret}/following`)
     .then(async (response) => {
         if (!response.ok) {
             return await handleError()
@@ -29,8 +29,8 @@ getDataWithSecret<FollowingData>(secret => `http://macbook-pro.local:3000/api/io
 
         if (config.runsInWidget) {
             const widget = createTextWidget(
-                `${self.initials}: ${self.timePoints}`,
-                self.timePoints,
+                `You: ${self.timePoints}`,
+                "Upcoming week",
                 followings.map(f => `${f.initials} ${f.timePoints.map(t => t.name).join("")}`).join(""),
                 self.color)
             Script.setWidget(widget)
@@ -60,8 +60,9 @@ function addFollowingHeaderRow(table: UITable, title: string, color: string) {
     let row = new UITableRow()
     row.isHeader = true;
     const cell = row.addText("•")
+    cell.leftAligned()
     cell.titleColor = new Color(color, 1);
-    row.addText(title)
+    row.addText(title).leftAligned()
     table.addRow(row)
 }
 function addFollowingRow(table: UITable, name: string, distance: string) {

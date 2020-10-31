@@ -11,7 +11,7 @@ interface WidgetFields {
     color: string;
 }
 
-getDataWithSecret<WidgetFields>(secret => `http://macbook-pro.local:3000/api/ios-widgets/${secret}/own`)
+getDataWithSecret<WidgetFields>(secret => `https://emittime.app/api/ios-widgets/${secret}/own`)
     .then(async (response) => {
         if (!response.ok) {
             return await handleError()
