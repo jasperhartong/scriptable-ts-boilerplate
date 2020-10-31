@@ -13,7 +13,7 @@ type ResponseData = { ok: false } | { ok: true, data: WidgetFields }
 
 const secret = args.widgetParameter
 
-const url = `http://macbook-pro.local:3000/api/ios-widget/${secret}`
+const url = `http://macbook-pro.local:3000/api/ios-widgets/${secret}/own`
 const req = new Request(url)
 // @ts-ignore
 let response: ResponseData = await req.loadJSON()
@@ -74,5 +74,12 @@ function createWidget(pretitle: string, title: string, subtitle: string, color: 
     subTxt.textColor = Color.white()
     subTxt.textOpacity = 0.8
     subTxt.font = Font.systemFont(12)
+
+    // @ts-ignore
+    w.addSpacer(null)
+    let a = w.addText("")
+    a.textColor = Color.white()
+    a.textOpacity = 0.8
+    a.font = Font.systemFont(12)
     return w
 }
