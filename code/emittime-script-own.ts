@@ -2,7 +2,7 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-green; icon-glyph: user-md;
 
-import { getSecret } from "./utils"
+import { createErrorWidget, createTextWidget, getDataWithSecret, presentErrorWidget } from "./utils";
 
 interface WidgetFields {
     pretitle: string;
@@ -11,37 +11,42 @@ interface WidgetFields {
     color: string;
 }
 
-type ResponseData = { ok: false } | { ok: true, data: WidgetFields }
+getDataWithSecret<WidgetFields>(secret => `http://macbook-pro.local:3000/api/ios-widgets/${secret}/own`)
+    .then(async (r) => {
+        if (config.runsInWidget) {
+            const widget = r.ok
+                ? createTextWidget(r.data.pretitle, r.data.title, r.data.subtitle, r.data.color)
+                : createErrorWidget();
 
-getSecret()
-    .then(secret => getOwnData(secret)
-        .then(({ pretitle, title, subtitle, color }) => {
-            if (config.runsInWidget) {
-                // create and show widget
-                let widget = createWidget(pretitle, title, subtitle, color)
-                Script.setWidget(widget)
-                Script.complete()
-            } else {
-                // make table
-                let table = new UITable()
-
-
-                // add header
-                let row = new UITableRow()
-                row.isHeader = true
-                row.addText(`Emit/Time`)
-                table.addRow(row)
-
-                // fill data
-                table.addRow(createRow(title, 0))
-
-                if (config.runsWithSiri)
-                    Speech.speak(`${title}`)
-
-                // present table
-                table.present()
+            Script.setWidget(widget)
+            Script.complete()
+        } else {
+            if (!r.ok) {
+                return await presentErrorWidget()
             }
-        }))
+
+            const { pretitle, title, subtitle, color } = r.data
+            // make table
+            let table = new UITable()
+
+
+            // add header
+            let row = new UITableRow()
+            row.isHeader = true
+            row.addText(`Emit/Time`)
+            table.addRow(row)
+
+            // fill data
+            table.addRow(createRow(title, 0))
+
+            if (config.runsWithSiri)
+                Speech.speak(`${title}`)
+
+            // present table
+            table.present()
+
+        }
+    })
 
 
 function createRow(title: string, number: number) {
@@ -49,44 +54,4 @@ function createRow(title: string, number: number) {
     row.addText(title)
     row.addText(number.toString()).rightAligned()
     return row
-}
-
-
-function createWidget(pretitle: string, title: string, subtitle: string, color: string) {
-    let w = new ListWidget()
-    // w.url = "https://emittime.app"
-    w.backgroundColor = new Color(color, 1)
-    let preTxt = w.addText(pretitle)
-    preTxt.textColor = Color.white()
-    preTxt.textOpacity = 0.8
-    preTxt.font = Font.systemFont(10)
-    w.addSpacer(5)
-    let titleTxt = w.addText(title)
-    titleTxt.textColor = Color.white()
-    titleTxt.font = Font.systemFont(16)
-    w.addSpacer(5)
-    let subTxt = w.addText(subtitle)
-    subTxt.textColor = Color.white()
-    subTxt.textOpacity = 0.8
-    subTxt.font = Font.systemFont(12)
-
-    // @ts-ignore
-    w.addSpacer(null)
-    let a = w.addText("")
-    a.textColor = Color.white()
-    a.textOpacity = 0.8
-    a.font = Font.systemFont(12)
-    return w
-}
-
-async function getOwnData(secret?: string): Promise<WidgetFields> {
-    const url = `http://macbook-pro.local:3000/api/ios-widgets/${secret}/own`
-    const req = new Request(url)
-
-    let response: ResponseData = await req.loadJSON()
-    if (!response.ok) {
-        throw Error(`No data: ${JSON.stringify(response)}. Secret: ${secret}`)
-    }
-
-    return response.data
 }
