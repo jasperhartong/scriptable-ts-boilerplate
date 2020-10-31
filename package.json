@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rollup --config rollup.config.js",
-    "watch": "tsc --watch"
+    "watch": "rollup --config rollup.config.js --watch"
   },
   "eslintConfig": {
     "extends": "@scriptable-ios"
