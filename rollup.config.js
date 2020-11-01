@@ -18,5 +18,24 @@ export default [
             strict: false
         },
         plugins: [typescript()]
+    },
+    {
+        input: ['code/widget-loader.ts'],
+        output: {
+            dir: 'output',
+            format: 'iife',
+            strict: false
+        },
+        plugins: [typescript()]
+    },
+    {
+        input: ['code/emittime-script-own-module.ts'],
+        output: {
+            dir: 'output',
+            format: 'cjs',
+            strict: false,
+            exports: "default"
+        },
+        plugins: [typescript()]
     }
 ];

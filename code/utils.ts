@@ -1,3 +1,10 @@
+export interface WidgetModuleParams {
+    widgetParameter: string;
+    debug: boolean
+}
+export interface WidgetModule {
+    createWidget: (params: WidgetModuleParams) => Promise<ListWidget>;
+}
 export interface ErrorData {
     ok: false;
 }
@@ -71,9 +78,9 @@ function createTextWidget(pretitle: string, title: string, subtitle: string, col
 }
 
 
-function presentErrorWidget(code: string) {
-    const widget = createTextWidget("EMIT/TIME", "No data", "Did you set the right secret in the parameter field?", "#000")
-    Script.setWidget(widget)
+function createErrorWidget(code: string) {
+    return createTextWidget("EMIT/TIME", "No data", "Did you set the right secret in the parameter field?", "#000")
+
 }
 
 async function presentErrorAlert(code: string) {
@@ -86,7 +93,7 @@ async function presentErrorAlert(code: string) {
 
 async function handleError(code: string = "") {
     if (config.runsInWidget) {
-        presentErrorWidget(code)
+        Script.setWidget(createErrorWidget(code))
     }
     if (config.runsInApp) {
         await presentErrorAlert(code)
@@ -94,6 +101,59 @@ async function handleError(code: string = "") {
 }
 
 
-export { getDataWithSecret, createTextWidget, handleError };
+async function downloadWidgetModule({ name, rootUrl, forceDownload = false }: { name: string, rootUrl: string, forceDownload?: boolean }) {
+    const fm = FileManager.local()
+
+    const scriptPath = module.filename
+    const libraryDir = scriptPath.replace(fm.fileName(scriptPath, true), fm.fileName(scriptPath, false))
+
+    if (fm.fileExists(libraryDir) && !fm.isDirectory(libraryDir)) {
+        fm.remove(libraryDir)
+    }
+    if (!fm.fileExists(libraryDir)) {
+        fm.createDirectory(libraryDir)
+    }
+    const libraryFilename = name + '.js'
+    const libraryEtag = name + '.etag'
+    const libraryPath = fm.joinPath(libraryDir, libraryFilename)
+    const libraryEtagPath = fm.joinPath(libraryDir, libraryEtag)
+    const libraryUrl = rootUrl + name + '.js'
+
+    // Check if an etag was saved for this file
+    if (fm.fileExists(libraryEtagPath)) {
+        const lastEtag = fm.readString(libraryEtagPath)
+        const headerReq = new Request(libraryUrl);
+        headerReq.method = "HEAD";
+        await headerReq.load()
+        const etag = getResponseHeader(headerReq, "Etag");
+        if (lastEtag === etag) {
+            console.log(`ETag is same, return cached file for for ${libraryUrl}`)
+            return fm.fileName(scriptPath, false) + '/' + libraryFilename
+        }
+    }
+
+    console.log("Downloading library file '" + libraryUrl + "' to '" + libraryPath + "'")
+    const req = new Request(libraryUrl)
+    const libraryFile = await req.load()
+    const etag = getResponseHeader(req, "Etag");
+    if (etag) {
+        fm.writeString(libraryEtagPath, etag)
+    }
+    fm.write(libraryPath, libraryFile)
+
+    return fm.fileName(scriptPath, false) + '/' + libraryFilename
+}
+
+const getResponseHeader = (request: Request, header: string) => {
+    if (!request.response) {
+        return undefined;
+    }
+    const key = Object.keys(request.response["headers"])
+        .find(key => key.toLowerCase() === header.toLowerCase());
+    return key ? request.response["headers"][key] : undefined
+}
+
+
+export { getDataWithSecret, createTextWidget, createErrorWidget, handleError, downloadWidgetModule };
 
 
