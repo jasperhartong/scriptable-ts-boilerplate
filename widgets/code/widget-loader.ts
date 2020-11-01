@@ -1,14 +1,14 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: red; icon-glyph: download;
+// icon-color: __iconColor__; icon-glyph: __iconGlyph__;
 import { downloadWidgetModule, WidgetModule } from "./utils";
 
 const DEBUG = false;
 
 
 downloadWidgetModule({
-    name: "emittime-script-own-module",
-    rootUrl: "https://gist.githubusercontent.com/jasperhartong/bf2c113b53e770b54f9fdd9502d6c64e/raw/b3d08c4513f8a01a462e63bd4a0985cffab69b94/"
+    name: "__name__",
+    rootUrl: "__rootUrl__"
 })
     .then(async widgetModulePath => {
         // import downloaded widgetModule
