@@ -23,7 +23,8 @@ interface FollowingData {
 getDataWithSecret<FollowingData>(secret => `https://emittime.app/api/ios-widgets/${secret}/following`)
     .then(async (response) => {
         if (!response.ok) {
-            return await handleError()
+            await handleError();
+            return
         }
         const { self, followings } = response.data;
 
@@ -34,7 +35,6 @@ getDataWithSecret<FollowingData>(secret => `https://emittime.app/api/ios-widgets
                 followings.map(f => `${f.initials} ${f.timePoints.map(t => t.name).join("")}`).join(""),
                 self.color)
             Script.setWidget(widget)
-            Script.complete()
         } else {
             // make table
             const table = new UITable()

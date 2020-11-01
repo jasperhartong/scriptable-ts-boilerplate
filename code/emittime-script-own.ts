@@ -14,14 +14,14 @@ interface WidgetFields {
 getDataWithSecret<WidgetFields>(secret => `https://emittime.app/api/ios-widgets/${secret}/own`)
     .then(async (response) => {
         if (!response.ok) {
-            return await handleError()
+            await handleError()
+            return;
         }
         const { pretitle, title, subtitle, color } = response.data
 
         if (config.runsInWidget) {
             const widget = createTextWidget(pretitle, title, subtitle, color)
             Script.setWidget(widget)
-            Script.complete()
         } else {
 
             // make table

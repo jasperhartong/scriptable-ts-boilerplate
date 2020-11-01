@@ -5,7 +5,7 @@ export default [
         input: ['code/emittime-script-own.ts'],
         output: {
             dir: 'output',
-            format: 'cjs',
+            format: 'iife',
             strict: false
         },
         plugins: [typescript()]
@@ -14,7 +14,7 @@ export default [
         input: ['code/emittime-script-following.ts'],
         output: {
             dir: 'output',
-            format: 'cjs',
+            format: 'iife',
             strict: false
         },
         plugins: [typescript()]

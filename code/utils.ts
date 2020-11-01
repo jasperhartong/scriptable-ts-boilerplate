@@ -91,7 +91,6 @@ async function handleError(code: string = "") {
     if (config.runsInApp) {
         await presentErrorAlert(code)
     }
-    Script.complete();
 }
 
 
