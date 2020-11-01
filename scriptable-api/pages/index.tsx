@@ -19,7 +19,7 @@ interface ScriptLoaderTemplateArgs {
 
 const defaultArgs: ScriptLoaderTemplateArgs = {
   rootUrl: "http://macbook-pro.local/3000/compiled-widgets/widget-modules",
-  name: "emittime-script-own-modules",
+  name: "emittime-script-own-module",
   iconColor: "green",
   iconGlyph: "download"
 }
@@ -38,7 +38,7 @@ export default function Page(props: PageProps) {
   const [args, setArgs] = useState<Partial<ScriptLoaderTemplateArgs>>({})
   useEffect(() => {
     setArgs({
-      rootUrl: window.location.origin
+      rootUrl: `${window.location.origin}/compiled-widgets/widget-modules`
     })
   }, [])
 
