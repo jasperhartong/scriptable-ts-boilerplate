@@ -1,5 +1,5 @@
 import { readFileSync } from "fs"
-import { GetStaticPaths, GetStaticProps } from "next"
+import { GetStaticProps } from "next"
 import Head from 'next/head'
 import { resolve } from "path"
 import { useEffect, useState } from "react"
@@ -70,12 +70,6 @@ export default function Page(props: PageProps) {
 }
 
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  }
-}
 export const getStaticProps: GetStaticProps<{}, {}> = async ({ params }) => {
   const scriptLoaderPath = resolve('./public/compiled-widgets/widget-loader.js');
   const props: PageProps = {
