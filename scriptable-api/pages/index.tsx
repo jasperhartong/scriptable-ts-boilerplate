@@ -18,7 +18,7 @@ interface ScriptLoaderTemplateArgs {
 }
 
 const defaultArgs: ScriptLoaderTemplateArgs = {
-  rootUrl: "http://macbook-pro.local/3000/compiled-widgets/widget-modules",
+  rootUrl: "http://macbook-pro.local/3000/compiled-widgets/widget-modules/",
   name: "emittime-script-own-module",
   iconColor: "green",
   iconGlyph: "download"
@@ -38,7 +38,7 @@ export default function Page(props: PageProps) {
   const [args, setArgs] = useState<Partial<ScriptLoaderTemplateArgs>>({})
   useEffect(() => {
     setArgs({
-      rootUrl: `${window.location.origin}/compiled-widgets/widget-modules`
+      rootUrl: `${window.location.origin}/compiled-widgets/widget-modules/`
     })
   }, [])
 
@@ -52,7 +52,7 @@ export default function Page(props: PageProps) {
       <main className={styles.main}>
         <textarea
           value={fillTemplate(props.scriptLoader, args)}
-          style={{ width: 600, height: 800 }} />
+          style={{ width: "100%", height: 800 }} />
       </main>
 
       <footer className={styles.footer}>
