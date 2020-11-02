@@ -198,9 +198,9 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
             Intrigued by the possibilities offered by the Scriptable App to create custom iOS Widgets in Javascript, I wondered whether this would also be useful for prototyping product-services requiring real widget interactions. The other route, publishing a actual native iOS app to TestFlight, just felt way to convoluted.
           </Typography>
           <Typography variant="body1" gutterBottom component="div">
-            I decided to set up this boilerplate to create such prototypes in a developer and ed-user friendly manner.
+            I decided to set up this boilerplate to create such prototypes in a developer and end-user friendly manner.
             <ul>
-              <li><strong>One time setup, continuous updates</strong>: To allow rapid prototyping, only an initial setup is required for the end-user. After this setup any new widget code deployed is downloaded the next time the widget refreshes. This is also great for when all is still in flux (e.g. the UX, the API). </li>
+              <li><strong>One time setup, continuous updates</strong>: To allow rapid prototyping, only an initial setup is required for the end-user. After this setup any new widget code deployed is downloaded the next time the widget refreshes (<a href="https://gitlab.com/sillium-scriptable-projects/universal-scriptable-widget">inspiration</a>). This is also great for when all is still in flux (e.g. the UX, the API).</li>
               <li><strong>Minimize code failures</strong>: During prototyping enough soft failures will, and should, already happen, it's an experiment. But minimizing the noise of hard/code failures is something to always strive for. Using TypeScript helps with this (I think), ensuring you don't mistakingly put in a Foo where a Bar was expected. </li>
               <li><strong>Even more rapid local prototyping</strong>: Loading the code from a (local) server also helps to make the roundabout between your editor and your phone also a lot faster. No longer you need to wait on iCloud to sync on both sides. </li>
               <li><strong>Offloading to the server</strong>: As Nextjs is included, custom API's are also simple to implement. This can keep the data-wrangling on the server and the actual widget code simple.</li>
