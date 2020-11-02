@@ -76,7 +76,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
   const [rootUrl, setRootUrl] = useState<string>("");
   const [widgetParameterValue, setWidgetParameterValue] = useState<string>("");
   const [widgetParameter] = useDebounce(widgetParameterValue, 300);
-  const [selectedModule, setSelectedModule] = useState<WidgetModule | undefined>();
+  const [selectedModule, setSelectedModule] = useState<WidgetModule | undefined>(widgetModules[0]);
   const classes = useStyles()
 
   const widgetLoaderWithModule = useMemo(() => setWidgetModule(
@@ -98,7 +98,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
       </Head>
       <div className={classes.header}>
         <Container maxWidth="md">
-          <Typography component="h3" variant="h3" color="inherit">Scriptable Widgets Starterkit</Typography>
+          <Typography component="h3" variant="h3" color="inherit">Scriptable TS Boilerplate</Typography>
           <Typography variant="h5" style={{ opacity: 0.6 }} gutterBottom >
             Makes creating iOS widgets with the <a style={{ color: "inherit" }} href="https://scriptable.app">Scriptable App</a> even more fun!
           </Typography>
@@ -106,20 +106,20 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           <Typography color="textSecondary" style={{ paddingTop: 16 }} variant="body1" gutterBottom component="div" >
             <li style={{ listStyle: "none" }}>🔥 Hot-loading widgets served by Next.js</li>
             <li style={{ listStyle: "none" }}>🔨 The safety of TypeScript</li>
-            <li style={{ listStyle: "none" }}>🍭 Prepared build, compile, rollup and other configs</li>
+            <li style={{ listStyle: "none" }}>🍭 Build, compile, rollup and other configs</li>
             <li style={{ listStyle: "none" }}>🚀 Deploy to Vercel with ease</li>
-            <li style={{ listStyle: "none" }}>✨ Roll out updates to shared widgets automatically</li>
+            <li style={{ listStyle: "none" }}>✨ Roll out updates to live widgets automatically</li>
           </Typography>
         </Container>
       </div>
 
 
       <Container maxWidth="md">
-        <Typography component="h4" variant="h4" gutterBottom>Demo</Typography>
+        <Typography component="h4" variant="h4" gutterBottom>Create a hot-reloading widget now</Typography>
 
         <Typography component="h5" variant="h5" gutterBottom>1. Pick an example widget</Typography>
         <Typography variant="body1" gutterBottom color="textSecondary"  >
-          These widget examples are included in the starterkit.
+          These widget examples are included in the boilerplate.
         </Typography>
         <div className={classes.cardsContainer}>
           {widgetModules.map(wm =>
@@ -136,7 +136,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           </Paper>
         </div>
 
-        <Typography color={selectedModule ? "textPrimary" : "textSecondary"} component="h5" variant="h5" gutterBottom>2. Provide its default input</Typography>
+        <Typography component="h5" variant="h5" gutterBottom>2. Provide its default input</Typography>
         <Typography variant="body1" gutterBottom color="textSecondary"  >
           This is not required and can also be filled into the Widget Setting after adding the widget
         </Typography>
@@ -149,7 +149,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           onChange={(event) => setWidgetParameterValue(event.currentTarget.value)}
         />
 
-        <Typography color={selectedModule ? "textPrimary" : "textSecondary"} component="h5" variant="h5" gutterBottom>3. Copy the snippet</Typography>
+        <Typography component="h5" variant="h5" gutterBottom>3. Copy the snippet</Typography>
 
         {/* The key is just a quick hack to remount the code on every change to make highlight work */}
         <CodeWithClipboard
@@ -159,8 +159,8 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           collapsedHeight={selectedModule ? 300 : 100}
         />
 
-        <div style={{ margin: 24 }} />
-        <Typography color={selectedModule ? "textPrimary" : "textSecondary"} component="h5" variant="h5" gutterBottom>4. Paste the snippet</Typography>
+        <div style={{ margin: 20 }} />
+        <Typography component="h5" variant="h5" gutterBottom>4. Paste the snippet</Typography>
         <Typography variant="body1" gutterBottom component="div" >
           Open the Scriptable App, create a new script with the plus button and paste the snippet.
         </Typography>
@@ -177,7 +177,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
         </Typography>
           <Typography variant="body1" gutterBottom component="div" >
             <li><a href="#">Develop locally</a></li>
-            <li><a href="#">Contribute to the starterkit and its examples</a></li>
+            <li><a href="#">Contribute to the boilerplate and its examples</a></li>
             <li><a href="#">Report issues</a></li>
           </Typography>
         </Container>
