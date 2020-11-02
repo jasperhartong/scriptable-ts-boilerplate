@@ -19,6 +19,7 @@ interface Props {
 const useStyles = makeStyles(theme => ({
     code: {
         padding: theme.spacing(3),
+        paddingTop: theme.spacing(5),
         margin: 0,
         borderRadius: theme.shape.borderRadius,
         border: 'solid 1px ' + theme.palette.grey[700],
@@ -29,8 +30,8 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
         position: "absolute",
-        right: theme.spacing(2),
-        top: theme.spacing(1),
+        left: theme.spacing(2),
+        top: theme.spacing(2),
         color: "white"
     },
     toggle: {

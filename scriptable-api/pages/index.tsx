@@ -178,6 +178,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           <Typography variant="body1" color="textSecondary" gutterBottom component="div" >
             Now it's ready to be added as a widget. Just go in wiggle mode and add it to your homescreen!
         </Typography>
+          <div style={{ margin: 30 }} />
 
         </Container>
       </div>
