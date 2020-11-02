@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   },
   paperComingSoon: {
     height: 154,
-    width: 280,
+    minWidth: 280,
     textAlign: "center"
   },
   textField: {
