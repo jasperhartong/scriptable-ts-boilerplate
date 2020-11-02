@@ -218,6 +218,10 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           <Typography variant="body1" gutterBottom component="div" >
             Visit the <Link href="https://github.com/jasperhartong/scriptable-ts-boilerplate">Github repo</Link> or the <Link href="https://docs.scriptable.app">official Scriptable Documentation</Link>. Follow any updates on Twitter <Link href="https://twitter.com/jasperhartong">@jasperhartong</Link>.
           </Typography>
+          <Alert severity="warning" className={classes.alert}>
+            <AlertTitle>This boilerplate is very much still a work in progress</AlertTitle>
+            It works for my purpose at the moment :)
+        </Alert>
         </Container>
       </div>
     </div>

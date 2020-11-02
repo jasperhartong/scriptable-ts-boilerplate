@@ -1,5 +1,7 @@
 # Scriptable TS Boilerplate
 
+Makes creating iOS widgets with the [Scriptable App](https://scriptable.app/) even more fun!
+
 - 🔥 Hot-loading widgets served by Next.js
 - 🔨 The safety of TypeScript
 - 🍭 Build, compile, rollup and other configs
@@ -55,6 +57,8 @@ module.exports = widgetModule;
 Add the filename `camelCasedName` to the roll-up config. _Should not be necessary later in future_ 
 
 Compile your widget by running either `yarn build` or `yarn watch` in `./widgets`.
+
+Read the awesome [official Scriptable Documentation](https://docs.scriptable.app).
 
 ## Serving the widget
 
