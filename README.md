@@ -97,3 +97,9 @@ Deployment to Vercel is easiest for the Nextjs app:
 ## Updating widgets
 
 If people installed widgets with the `WidgetLoader` pointing to your deployed instance, simply pushing code to the `main` branch would already let them have update code again.
+
+
+# Credits
+
+- https://github.com/drewkerr/scriptable/blob/main/Sticky%20widget.js
+- https://gitlab.com/sillium-scriptable-projects/universal-scriptable-widget
