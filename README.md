@@ -14,7 +14,7 @@
 Install a WidgetLoader with argsConfig similar to:
 ```
 const argsConfig = {
-        fileName: "covid-19-cases-widget-module",
+        fileName: "simple-sticky-widget-module",
         rootUrl: "http://macbook-pro.local:3000/compiled-widgets/widget-modules/",
         widgetParameter: ""
     };

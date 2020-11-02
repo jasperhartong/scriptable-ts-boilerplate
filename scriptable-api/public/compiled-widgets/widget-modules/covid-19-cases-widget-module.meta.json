@@ -1,9 +1,0 @@
-{
-    "name": "Covid19 Cases",
-    "description": "In Australia",
-    "paramLabel": "No input yet",
-    "loaderArgs": {
-        "iconColor": "deep-green",
-        "iconGlyph": "procedures"
-    }
-}

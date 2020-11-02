@@ -34,10 +34,10 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     overflow: "auto",
     flexWrap: "nowrap",
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
+    marginLeft: theme.spacing(-1),
   },
   textField: {
-    marginLeft: theme.spacing(1),
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(4),
     width: 280
@@ -171,7 +171,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
 
 export const getStaticProps: GetStaticProps<{}, {}> = async ({ params }) => {
   const widgetLoaderPath = resolve('./public/compiled-widgets/widget-loader.js');
-  const widgetModuleFilenames = ["sticky-widget-module", "covid-19-cases-widget-module"]
+  const widgetModuleFilenames = ["sticky-widget-module"]
   const props: PageProps = {
     widgetLoader: readFileSync(widgetLoaderPath).toString("utf-8"),
     widgetModules: widgetModuleFilenames.map(fileName => {

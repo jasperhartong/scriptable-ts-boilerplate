@@ -7,7 +7,6 @@ const loaderBanner = `
 `;
 
 const widgetModuleInputs = [
-    "code/covid-19-cases-widget-module.ts",
     "code/sticky-widget-module.ts"
 ]
 
