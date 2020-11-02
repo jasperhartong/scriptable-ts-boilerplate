@@ -21,7 +21,8 @@ interface PageProps {
 
 const useStyles = makeStyles(theme => ({
   header: {
-    background: theme.palette.action.hover,
+    background: theme.palette.primary.main,
+    color: "white",
     paddingTop: theme.spacing(6),
     paddingBottom: theme.spacing(4),
     marginBottom: theme.spacing(4)
@@ -103,7 +104,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
             Makes creating iOS widgets with the <a style={{ color: "inherit" }} href="https://scriptable.app">Scriptable App</a> even more fun!
           </Typography>
 
-          <Typography color="textSecondary" style={{ paddingTop: 16 }} variant="body1" gutterBottom component="div" >
+          <Typography style={{ paddingTop: 16 }} variant="body1" gutterBottom component="div" >
             <li style={{ listStyle: "none" }}>🔥 Hot-loading widgets served by Next.js</li>
             <li style={{ listStyle: "none" }}>🔨 The safety of TypeScript</li>
             <li style={{ listStyle: "none" }}>🍭 Build, compile, rollup and other configs</li>
