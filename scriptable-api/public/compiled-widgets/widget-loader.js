@@ -67,6 +67,7 @@
             debug: DEBUG
         };
         const widget = await widgetModule.createWidget(params);
+        // widget.url = "TODO: allow to set url in argsConfig"
         // preview the widget
         if (!config.runsInWidget) {
             await widget.presentSmall();

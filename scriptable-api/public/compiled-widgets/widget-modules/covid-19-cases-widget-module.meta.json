@@ -1,0 +1,9 @@
+{
+    "name": "Covid19 Cases",
+    "description": "In berlin",
+    "paramLabel": "City",
+    "loaderArgs": {
+        "iconColor": "deep-green",
+        "iconGlyph": "procedures"
+    }
+}

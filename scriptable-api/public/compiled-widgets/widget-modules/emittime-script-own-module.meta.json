@@ -1,9 +1,0 @@
-{
-    "name": "Emit/Time",
-    "description": "Your own events",
-    "paramLabel": "Secret key",
-    "loaderArgs": {
-        "iconColor": "green",
-        "iconGlyph": "download"
-    }
-}

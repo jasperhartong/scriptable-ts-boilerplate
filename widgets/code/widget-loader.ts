@@ -1,5 +1,6 @@
 import { argsConfig, downloadWidgetModule, WidgetModule } from "./utils";
 const DEBUG = false;
+const VERSION = "0.1";
 
 downloadWidgetModule(argsConfig)
     .then(async widgetModulePath => {
@@ -11,6 +12,7 @@ downloadWidgetModule(argsConfig)
             debug: DEBUG
         }
         const widget = await widgetModule.createWidget(params)
+        // widget.url = "TODO: allow to set url in argsConfig"
 
         // preview the widget
         if (!config.runsInWidget) {
