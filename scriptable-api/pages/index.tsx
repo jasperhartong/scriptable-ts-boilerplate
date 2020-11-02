@@ -117,6 +117,9 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
             <li style={{ listStyle: "none" }}>🚀 Deploy to Vercel with ease</li>
             <li style={{ listStyle: "none" }}>✨ Roll out updates to live widgets automatically</li>
           </Typography>
+          <div style={{ marginTop: 16, marginBottom: 16 }}>
+            <Link variant="body1" underline="always" color="inherit" href="https://github.com/jasperhartong/scriptable-ts-boilerplate">Github repo →</Link>
+          </div>
         </Container>
       </div>
 

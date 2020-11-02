@@ -6,9 +6,9 @@
 - 🚀 Deploy to Vercel with ease
 - ✨ Roll out updates to live widgets automatically
 
-_Note: This is a work in progress, better ways might be found, better code might be written_
+_Note: This is a work in progress_
 
-**[Scriptable TS Boilerplate Website](https://scriptable-ts-boilerplate.vercel.app)**
+**[Scriptable TS Boilerplate Website →](https://scriptable-ts-boilerplate.vercel.app)**
 
 ## Project structure
 
@@ -31,9 +31,7 @@ The only way data is shared between the two is through the compilation process o
 
 # Local development
 
-## Creating a new widget
-
-### Writing an compiling
+## Writing and compiling a new widget
 
 Start with creating a new widgetModule in `./widgets/code` that complies to the following convention:
 
@@ -58,7 +56,7 @@ Add the filename `camelCasedName` to the roll-up config. _Should not be necessar
 
 Compile your widget by running either `yarn build` or `yarn watch` in `./widgets`.
 
-### Serving the widget
+## Serving the widget
 
 Serve your widget by running `yarn dev` in `./scriptable-api`.
 
@@ -66,7 +64,7 @@ Your compiled widget should now be available on `YOUR_LOCAL_DNS_NAME:3000/compil
 
 The demo page is also available on `YOUR_LOCAL_DNS_NAME:3000` (without your widget, that requires some additional steps).
 
-### Loading the widget on your device for the first time
+## Loading the widget on your device for the first time
 
 Paste a compiled `WidgetLoader` (can be found in `./scriptable-api/public/compiled-widgets/widgetLoader.js`, or on the demo site) into Scriptable with the following `argsConfig` and press play.
 ```
@@ -79,7 +77,7 @@ const argsConfig = {
 
 Note that the `widgetParameter` is the default parameter to be sent into `createWidget`, this parameter can be overruled by filling it into the setting of a widget.
 
-### Iterating the widget
+## Iterating the widget
 
 With `yarn watch` running in `./widgets` and `yarn dev` running in `./scriptable-api` you'll now always run the latest code on your device:
 
@@ -87,7 +85,7 @@ With `yarn watch` running in `./widgets` and `yarn dev` running in `./scriptable
 - `yarn dev` will serve this new version of the widget with a new ETag
 - the `WidgetLoader` wil notice to ETag change on run and pull in the new version of the code
 
-## Deployment
+# Deployment
 
 Deployment to Vercel is easiest for the Nextjs app:
 
@@ -95,3 +93,7 @@ Deployment to Vercel is easiest for the Nextjs app:
 - Link Github to Vercel and make the new project available to Vercel
 - During setup pick the subdirectory `scriptable-api`
 - Done!
+
+## Updating widgets
+
+If people installed widgets with the `WidgetLoader` pointing to your deployed instance, simply pushing code to the `main` branch would already let them have update code again.
