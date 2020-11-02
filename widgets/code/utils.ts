@@ -5,22 +5,12 @@ export interface WidgetModuleParams {
 export interface WidgetModule {
     createWidget: (params: WidgetModuleParams) => Promise<ListWidget>;
 }
-export interface ErrorData {
-    ok: false;
-}
-
-export interface SuccessData<T> {
-    ok: true;
-    data: T
-}
 
 export const argsConfig = {
     fileName: "__fileName__",
     rootUrl: "__rootUrl__",
     widgetParameter: "__widgetParameter__"
 }
-
-export type Response<T> = SuccessData<T> | ErrorData
 
 
 function createTextWidget(pretitle: string, title: string, subtitle: string, color: string) {
