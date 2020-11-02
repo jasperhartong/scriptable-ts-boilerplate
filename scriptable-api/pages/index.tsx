@@ -1,5 +1,4 @@
 import { Container, makeStyles, TextField, Typography } from "@material-ui/core"
-import { Alert, AlertTitle } from '@material-ui/lab'
 import { readFileSync } from "fs"
 import { GetStaticProps } from "next"
 import Head from 'next/head'
@@ -22,10 +21,9 @@ interface PageProps {
 
 const useStyles = makeStyles(theme => ({
   header: {
-    background: theme.palette.primary.main,
-    color: "white",
+    background: theme.palette.action.hover,
     paddingTop: theme.spacing(6),
-    paddingBottom: theme.spacing(6),
+    paddingBottom: theme.spacing(4),
     marginBottom: theme.spacing(4)
   },
   alert: {
@@ -39,8 +37,16 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(4)
   },
   textField: {
+    marginLeft: theme.spacing(1),
     marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
+    width: 280
+  },
+  developmentSection: {
+    background: theme.palette.action.hover,
+    marginTop: theme.spacing(4),
+    paddingTop: theme.spacing(6),
+    paddingBottom: theme.spacing(6),
   }
 }))
 
@@ -90,27 +96,27 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           <Typography variant="h5" style={{ opacity: 0.6 }} gutterBottom >
             Makes creating iOS widgets with the <a style={{ color: "inherit" }} href="https://scriptable.app">Scriptable App</a> even more fun!
           </Typography>
+
+          <Typography color="textSecondary" style={{ paddingTop: 16 }} variant="body1" gutterBottom component="div" >
+            <li style={{ listStyle: "none" }}>🔥 Hot-loading widgets served by Next.js</li>
+            <li style={{ listStyle: "none" }}>🔨 The safety of TypeScript</li>
+            <li style={{ listStyle: "none" }}>🍭 Prepared build, compile, rollup and other configs</li>
+            <li style={{ listStyle: "none" }}>🚀 Deploy to Vercel with ease</li>
+            <li style={{ listStyle: "none" }}>✨ Roll out updates to shared widgets automatically</li>
+          </Typography>
         </Container>
       </div>
 
 
       <Container maxWidth="md">
-        <Typography component="h4" variant="h4" gutterBottom>What's in the starterkit</Typography>
-        <Typography variant="body1" gutterBottom component="div" >
-          <li style={{ listStyle: "none" }}>🔥 Hot-loading widgets served by Next.js</li>
-          <li style={{ listStyle: "none" }}>🔨 The safety of TypeScript</li>
-          <li style={{ listStyle: "none" }}>🍭 Prepared build, compile, rollup and other configs</li>
-          <li style={{ listStyle: "none" }}>🚀 Deploy to Vercel with ease</li>
-          <li style={{ listStyle: "none" }}>✨ Roll out updates to shared widgets automatically</li>
-        </Typography>
 
-        <Alert severity="info" className={classes.alert}>
-          <AlertTitle>Before you click anything down below</AlertTitle>
-          Make sure to first download the awesome <a href="https://scriptable.app">Scriptable App</a> from the <a href="https://apps.apple.com/us/app/scriptable/id1405459188?uo=4">Apple App Store</a>.
-        </Alert>
 
-        <Typography component="h4" variant="h4" gutterBottom>Try it out</Typography>
+        <Typography component="h4" variant="h4" gutterBottom>Demo</Typography>
+
         <Typography component="h5" variant="h5" gutterBottom>1. Pick an example widget</Typography>
+        <Typography variant="body1" gutterBottom color="textSecondary"  >
+          These widget examples are included in the starterkit.
+        </Typography>
         <div className={classes.cardsContainer}>
           {widgetModules.map(wm =>
             <WidgetModuleCard
@@ -143,8 +149,21 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           inActive={!selectedModule}
           collapsedHeight={selectedModule ? 300 : 100}
         />
-
       </Container>
+      <div className={classes.developmentSection}>
+        <Container maxWidth="md">
+          <Typography component="h4" variant="h4" gutterBottom>Documentation</Typography>
+          <Typography variant="body1" gutterBottom color="textSecondary"  >
+            Read the documentation on Github in order to:
+        </Typography>
+          <Typography variant="body1" gutterBottom component="div" >
+            <li><a href="#">Develop locally</a></li>
+            <li><a href="#">Contribute to the starterkit and its examples</a></li>
+            <li><a href="#">Report issues</a></li>
+          </Typography>
+        </Container>
+
+      </div>
     </div>
   )
 }
