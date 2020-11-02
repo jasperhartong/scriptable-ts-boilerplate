@@ -188,7 +188,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           <Typography variant="body1" gutterBottom >
             Intrigued by the possibilities offered by the Scriptable App to create custom iOS Widgets in Javascript, I wondered whether this would also be useful for prototyping product-services requiring real widget interactions. The other route, publishing a actual native iOS app to TestFlight, just felt way to convoluted.
           </Typography>
-          <Typography variant="body1" gutterBottom >
+          <Typography variant="body1" gutterBottom component="div">
             I decided to set up this boilerplate to create such prototypes in a developer and ed-user friendly manner.
             <ul>
               <li><strong>One time setup, continuous updates</strong>: To allow rapid prototyping, only an initial setup is required for the end-user. After this setup any new widget code deployed is downloaded the next time the widget refreshes. This is also great for when all is still in flux (e.g. the UX, the API). </li>
@@ -218,7 +218,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
 
 export const getStaticProps: GetStaticProps<{}, {}> = async ({ params }) => {
   const widgetLoaderPath = resolve('./public/compiled-widgets/widget-loader.js');
-  const widgetModuleFilenames = ["sticky-widget-module"]
+  const widgetModuleFilenames = ["sticky-widget-module", "covid19-widget-module"]
   const props: PageProps = {
     widgetLoader: readFileSync(widgetLoaderPath).toString("utf-8"),
     widgetModules: widgetModuleFilenames.map(fileName => {

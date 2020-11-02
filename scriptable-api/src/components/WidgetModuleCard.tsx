@@ -58,7 +58,11 @@ export const WidgetModuleCard = ({ widgetModule, isSelected, onSelect }: Props) 
     const classes = useStyles();
 
     return (
-        <Card className={clsx({ [classes.root]: true, [classes.rootIsSelected]: isSelected })} onClick={onSelect}>
+        <Card className={clsx({ [classes.root]: true, [classes.rootIsSelected]: isSelected })} onClick={(event) => {
+            // Scroll into view
+            event.currentTarget.parentElement.scrollLeft = event.currentTarget.offsetLeft - 16;
+            onSelect();
+        }}>
             <div className={classes.details}>
                 <CardContent className={classes.content}>
                     <Typography component="h6" variant="h6">

@@ -97,23 +97,13 @@ export const CodeWithClipboard = (
                                 <span style={{ marginRight: 8 }}>Copy</span>
                                 {clipboard.copied ? <CheckCircleIcon /> : <ClipboardIcon />}
                             </Button>
-                            // <Tooltip placement="left" open={true} title="Copy" >
-                            //     <IconButton
-                            //         className={classes.button}
-                            //         color="inherit"
-                            //         onClick={handleCopy}
-                            //         style={{ marginLeft: theme.spacing(2) }}
-                            //     >
-
-                            //     </IconButton>
-                            // </Tooltip>
                         )}
                         <pre className={classes.code} ref={preElement}>
                             <code>{value}</code>
                         </pre>
                     </div>
                 </Collapse>
-                {!inActive && <ButtonBase className={classes.toggle} onClick={handleToggle} color="textPrimary">
+                {!inActive && <ButtonBase className={classes.toggle} onClick={handleToggle} color="textPrimary" component="div">
                     <Fab size="small"><ChevronRightIcon className={clsx({ [classes.chevron]: true, [classes.chevronUp]: !isCollapsed })} /></Fab>
                 </ButtonBase>}
             </div>

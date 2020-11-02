@@ -83,15 +83,15 @@ function createTextWidget(pretitle: string, title: string, subtitle: string, col
 }
 
 
-function createErrorWidget(code: string) {
-    return createTextWidget("EMIT/TIME", "No data", "Did you set the right secret in the parameter field?", "#000")
+function createErrorWidget(subtitle: string) {
+    return createTextWidget("ERROR", "Widget Error", subtitle, "#000")
 
 }
 
 async function presentErrorAlert(code: string) {
     const alert = new Alert();
-    alert.title = "Emit/Time Error";
-    alert.message = "Did you enter the right secret?"
+    alert.title = "Error";
+    alert.message = "Something wnet wrong"
     alert.addAction("OK");
     return await alert.presentAlert();
 }

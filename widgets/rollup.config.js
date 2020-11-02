@@ -7,7 +7,8 @@ const loaderBanner = `
 `;
 
 const widgetModuleInputs = [
-    "code/sticky-widget-module.ts"
+    "code/sticky-widget-module.ts",
+    "code/covid19-widget-module.ts"
 ]
 
 export default [

@@ -1,0 +1,10 @@
+{
+    "name": "Covid19",
+    "description": "Coronavirus stats in a country",
+    "paramLabel": "The country you're interested in",
+    "paramPlaceHolder": "Israel",
+    "loaderArgs": {
+        "iconColor": "deep-green",
+        "iconGlyph": "user-md"
+    }
+}
