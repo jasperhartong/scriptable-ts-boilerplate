@@ -105,5 +105,7 @@ If people installed widgets with the `WidgetLoader` pointing to your deployed in
 
 # Credits
 
-- https://github.com/drewkerr/scriptable/blob/main/Sticky%20widget.js
-- https://gitlab.com/sillium-scriptable-projects/universal-scriptable-widget
+- The [Scriptable App](https://scriptable.app/)] of course
+- The idea of bootstrapping widgets: https://gitlab.com/sillium-scriptable-projects/universal-scriptable-widget
+- The Sticky example https://github.com/drewkerr/scriptable/blob/main/Sticky%20widget.js
+- The Covid19 example: https://gist.github.com/planecore/e7b4c1e5db2dd28b1a023860e831355e
