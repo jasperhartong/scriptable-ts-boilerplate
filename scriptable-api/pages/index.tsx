@@ -1,4 +1,5 @@
-import { Container, Link, makeStyles, Paper, TextField, Typography } from "@material-ui/core"
+import { Button, Container, Link, makeStyles, Paper, TextField, Typography } from "@material-ui/core"
+import LaunchIcon from '@material-ui/icons/Launch'
 import { Alert, AlertTitle } from "@material-ui/lab"
 import { readFileSync } from "fs"
 import { GetStaticProps } from "next"
@@ -180,8 +181,13 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
 
           <div style={{ margin: 20 }} />
           <Typography component="h5" variant="h5" gutterBottom>4. Paste the snippet</Typography>
+          <Button href="https://open.scriptable.app/add" target="_Blank" variant="contained" color="primary">
+            <span style={{ marginRight: 8 }}>Open the Scriptable App</span>
+            <LaunchIcon />
+          </Button>
+          <div style={{ margin: 16 }} />
           <Typography variant="body1" gutterBottom component="div" >
-            Open the Scriptable App, create a new script with the plus button and paste the snippet.
+            And paste the snippet in a new Script.
         </Typography>
           <Typography variant="body1" color="textSecondary" gutterBottom component="div" >
             Now it's ready to be added as a widget. Just go in wiggle mode and add it to your homescreen!
