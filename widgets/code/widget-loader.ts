@@ -1,15 +1,7 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: __iconColor__; icon-glyph: __iconGlyph__;
-import { downloadWidgetModule, WidgetModule } from "./utils";
-
+import { argsConfig, downloadWidgetModule, WidgetModule } from "./utils";
 const DEBUG = false;
 
-
-downloadWidgetModule({
-    name: "__name__",
-    rootUrl: "__rootUrl__"
-})
+downloadWidgetModule(argsConfig)
     .then(async widgetModulePath => {
         // import downloaded widgetModule
         const widgetModule: WidgetModule = importModule(widgetModulePath)

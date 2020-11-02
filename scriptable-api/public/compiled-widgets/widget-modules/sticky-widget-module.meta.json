@@ -1,0 +1,8 @@
+{
+    "name": "Sticky Widget",
+    "description": "Just a simple sticky widget",
+    "loaderArgs": {
+        "iconColor": "yellow",
+        "iconGlyph": "sticky-note"
+    }
+}

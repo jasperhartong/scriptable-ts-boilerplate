@@ -1,6 +1,15 @@
+
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: __iconColor__; icon-glyph: __iconGlyph__;
+
 (function () {
 
-    async function downloadWidgetModule({ name, rootUrl, forceDownload = false }) {
+    const argsConfig = {
+        fileName: "__fileName__",
+        rootUrl: "__rootUrl__",
+    };
+    async function downloadWidgetModule({ fileName, rootUrl, forceDownload = false }) {
         const fm = FileManager.local();
         const scriptPath = module.filename;
         const libraryDir = scriptPath.replace(fm.fileName(scriptPath, true), fm.fileName(scriptPath, false));
@@ -10,11 +19,11 @@
         if (!fm.fileExists(libraryDir)) {
             fm.createDirectory(libraryDir);
         }
-        const libraryFilename = name + '.js';
-        const libraryEtag = name + '.etag';
+        const libraryFilename = fileName + '.js';
+        const libraryEtag = fileName + '.etag';
         const libraryPath = fm.joinPath(libraryDir, libraryFilename);
         const libraryEtagPath = fm.joinPath(libraryDir, libraryEtag);
-        const libraryUrl = rootUrl + name + '.js';
+        const libraryUrl = rootUrl + fileName + '.js';
         // Check if an etag was saved for this file
         if (fm.fileExists(libraryEtagPath)) {
             const lastEtag = fm.readString(libraryEtagPath);
@@ -46,12 +55,8 @@
         return key ? request.response["headers"][key] : undefined;
     };
 
-    // Variables used by Scriptable.
     const DEBUG = false;
-    downloadWidgetModule({
-        name: "__name__",
-        rootUrl: "__rootUrl__"
-    })
+    downloadWidgetModule(argsConfig)
         .then(async (widgetModulePath) => {
         // import downloaded widgetModule
         const widgetModule = importModule(widgetModulePath);

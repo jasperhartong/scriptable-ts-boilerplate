@@ -1,0 +1,8 @@
+{
+    "name": "Emit/Time",
+    "description": "Your own events",
+    "loaderArgs": {
+        "iconColor": "green",
+        "iconGlyph": "download"
+    }
+}

@@ -14,6 +14,11 @@ export interface SuccessData<T> {
     data: T
 }
 
+export const argsConfig = {
+    fileName: "__fileName__",
+    rootUrl: "__rootUrl__",
+}
+
 export type Response<T> = SuccessData<T> | ErrorData
 
 async function getSecret(): Promise<string | undefined> {
@@ -101,7 +106,7 @@ async function handleError(code: string = "") {
 }
 
 
-async function downloadWidgetModule({ name, rootUrl, forceDownload = false }: { name: string, rootUrl: string, forceDownload?: boolean }) {
+async function downloadWidgetModule({ fileName, rootUrl, forceDownload = false }: { fileName: string, rootUrl: string, forceDownload?: boolean }) {
     const fm = FileManager.local()
 
     const scriptPath = module.filename
@@ -113,11 +118,11 @@ async function downloadWidgetModule({ name, rootUrl, forceDownload = false }: { 
     if (!fm.fileExists(libraryDir)) {
         fm.createDirectory(libraryDir)
     }
-    const libraryFilename = name + '.js'
-    const libraryEtag = name + '.etag'
+    const libraryFilename = fileName + '.js'
+    const libraryEtag = fileName + '.etag'
     const libraryPath = fm.joinPath(libraryDir, libraryFilename)
     const libraryEtagPath = fm.joinPath(libraryDir, libraryEtag)
-    const libraryUrl = rootUrl + name + '.js'
+    const libraryUrl = rootUrl + fileName + '.js'
 
     // Check if an etag was saved for this file
     if (fm.fileExists(libraryEtagPath)) {
