@@ -4,6 +4,7 @@ export interface WidgetModule {
     imageSrc: string;
     meta: {
         name: string;
+        paramLabel: string;
         description: string;
         loaderArgs: WidgetLoaderArgs;
     }

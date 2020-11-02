@@ -1,4 +1,4 @@
-import { Collapse, fade, IconButton, Link, makeStyles, Tooltip, useTheme } from "@material-ui/core";
+import { Collapse, fade, Fade, IconButton, Link, makeStyles, Tooltip, useTheme } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ClipboardIcon from "@material-ui/icons/FileCopy";
@@ -83,7 +83,7 @@ export const CodeWithClipboard = (
     }, [value]);
 
     return (
-        <Collapse in={isHighlighted} timeout={400}>
+        <Fade in={isHighlighted} timeout={800}>
             <div className={classes.root} >
                 <Collapse in={!isCollapsed} collapsedHeight={collapsedHeight}>
                     <div >
@@ -108,7 +108,7 @@ export const CodeWithClipboard = (
                     <ChevronRightIcon className={clsx({ [classes.chevron]: true, [classes.chevronUp]: !isCollapsed })} />
                 </Link>}
             </div>
-        </Collapse>
+        </Fade>
     )
 
 }

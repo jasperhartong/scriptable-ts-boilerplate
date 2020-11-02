@@ -1,6 +1,7 @@
 {
     "name": "Sticky Widget",
     "description": "Just a simple sticky widget",
+    "paramLabel": "The text on the sticky",
     "loaderArgs": {
         "iconColor": "yellow",
         "iconGlyph": "sticky-note"

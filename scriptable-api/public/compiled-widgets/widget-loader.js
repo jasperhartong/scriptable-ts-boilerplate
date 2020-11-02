@@ -8,6 +8,7 @@
     const argsConfig = {
         fileName: "__fileName__",
         rootUrl: "__rootUrl__",
+        widgetParameter: "__widgetParameter__"
     };
     async function downloadWidgetModule({ fileName, rootUrl, forceDownload = false }) {
         const fm = FileManager.local();
@@ -62,7 +63,7 @@
         const widgetModule = importModule(widgetModulePath);
         // create the widget
         const params = {
-            widgetParameter: args.widgetParameter,
+            widgetParameter: args.widgetParameter || argsConfig.widgetParameter,
             debug: DEBUG
         };
         const widget = await widgetModule.createWidget(params);

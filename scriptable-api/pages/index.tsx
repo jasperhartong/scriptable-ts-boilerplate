@@ -1,13 +1,15 @@
-import { Container, makeStyles, Typography } from "@material-ui/core"
+import { Container, makeStyles, TextField, Typography } from "@material-ui/core"
 import { Alert, AlertTitle } from '@material-ui/lab'
 import { readFileSync } from "fs"
 import { GetStaticProps } from "next"
 import Head from 'next/head'
 import { resolve } from "path"
 import { useEffect, useMemo, useState } from "react"
+import { useDebounce } from 'use-debounce'
 import { CodeWithClipboard } from "../src/components/CodeWithClipboard"
 import { WidgetModuleCard } from "../src/components/WidgetModuleCard"
 import { WidgetModule } from "../src/interfaces"
+
 
 
 
@@ -35,18 +37,21 @@ const useStyles = makeStyles(theme => ({
     overflow: "auto",
     flexWrap: "nowrap",
     marginBottom: theme.spacing(4)
+  },
+  textField: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(4)
   }
 }))
 
 
-const setWidgetModule = (widgetLoader: string, rootUrl: string, widgetModule?: WidgetModule) => {
+const setWidgetModule = (widgetLoader: string, rootUrl: string, widgetModule?: WidgetModule, widgetParameter?: string) => {
   if (!widgetModule) {
     return widgetLoader;
   }
   let filled = widgetLoader;
   const { fileName, meta } = widgetModule;
-  const args = { fileName, ...meta.loaderArgs, rootUrl: rootUrl };
-
+  const args = { fileName, ...meta.loaderArgs, rootUrl: rootUrl, widgetParameter: widgetParameter };
 
   for (let arg of Object.keys(args)) {
     const reg = new RegExp(`__${arg}__`, "gim")
@@ -57,14 +62,17 @@ const setWidgetModule = (widgetLoader: string, rootUrl: string, widgetModule?: W
 
 export default function Page({ widgetLoader, widgetModules }: PageProps) {
   const [rootUrl, setRootUrl] = useState<string>("");
+  const [widgetParameterValue, setWidgetParameterValue] = useState<string>("");
+  const [widgetParameter] = useDebounce(widgetParameterValue, 300);
   const [selectedModule, setSelectedModule] = useState<WidgetModule | undefined>();
   const classes = useStyles()
 
   const widgetLoaderWithModule = useMemo(() => setWidgetModule(
     widgetLoader,
     rootUrl,
-    selectedModule
-  ), [widgetLoader, selectedModule, rootUrl])
+    selectedModule,
+    widgetParameter
+  ), [widgetLoader, selectedModule, rootUrl, widgetParameter])
 
   useEffect(() => {
     setRootUrl((_) => `${window.location.origin}/compiled-widgets/widget-modules/`)
@@ -113,12 +121,25 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           )}
         </div>
 
-        <Typography color={selectedModule ? "textPrimary" : "textSecondary"} component="h5" variant="h5" gutterBottom>2. Copy snippet for Scriptable app</Typography>
+        <Typography color={selectedModule ? "textPrimary" : "textSecondary"} component="h5" variant="h5" gutterBottom>2. Provide its default input</Typography>
+        <Typography variant="body1" gutterBottom color="textSecondary"  >
+          This is not required and can also be filled into the Widget Setting after adding the widget
+        </Typography>
+        <TextField
+          className={classes.textField}
+          value={widgetParameterValue}
+          variant="outlined"
+          label={selectedModule ? selectedModule.meta.paramLabel : "First pick a widget.."}
+          disabled={!selectedModule}
+          onChange={(event) => setWidgetParameterValue(event.currentTarget.value)}
+        />
+
+        <Typography color={selectedModule ? "textPrimary" : "textSecondary"} component="h5" variant="h5" gutterBottom>3. Copy snippet for Scriptable app</Typography>
 
         {/* The key is just a quick hack to remount the code on every change to make highlight work */}
         <CodeWithClipboard
           key={widgetLoaderWithModule}
-          value={selectedModule ? widgetLoaderWithModule : "// Select a widget first"}
+          value={selectedModule ? widgetLoaderWithModule : "// First pick a widget.."}
           inActive={!selectedModule}
           collapsedHeight={selectedModule ? 300 : 100}
         />

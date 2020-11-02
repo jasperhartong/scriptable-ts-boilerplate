@@ -69,7 +69,7 @@ export const WidgetModuleCard = ({ widgetModule, isSelected, onSelect }: Props) 
                     </Typography>
                 </CardContent>
                 <div className={classes.controls}>
-                    <Button disabled={isSelected} color="primary" onClick={onSelect} variant={isSelected ? "text" : "contained"}>
+                    <Button disabled={isSelected} color="primary" onClick={onSelect} variant={"text"}>
                         {isSelected ? "Selected" : "Select"}
                     </Button>
                 </div>

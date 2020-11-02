@@ -17,6 +17,7 @@ export interface SuccessData<T> {
 export const argsConfig = {
     fileName: "__fileName__",
     rootUrl: "__rootUrl__",
+    widgetParameter: "__widgetParameter__"
 }
 
 export type Response<T> = SuccessData<T> | ErrorData
