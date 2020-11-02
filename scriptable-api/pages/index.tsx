@@ -100,7 +100,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
   return (
     <div>
       <Head>
-        <title>Scriptable API</title>
+        <title>Scriptable TS Boilerplate</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={classes.header}>
