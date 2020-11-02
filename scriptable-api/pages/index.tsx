@@ -1,4 +1,5 @@
 import { Container, Link, makeStyles, Paper, TextField, Typography } from "@material-ui/core"
+import { Alert, AlertTitle } from "@material-ui/lab"
 import { readFileSync } from "fs"
 import { GetStaticProps } from "next"
 import Head from 'next/head'
@@ -122,6 +123,10 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
       <div className={classes.whiteSection}>
         <Container maxWidth="md">
           <Typography component="h4" variant="h4" gutterBottom>Try the examples</Typography>
+          <Alert severity="info" className={classes.alert}>
+            <AlertTitle>Before you continue</AlertTitle>
+          Make sure to first download the awesome <a href="https://scriptable.app">Scriptable App</a> from the <a href="https://apps.apple.com/us/app/scriptable/id1405459188?uo=4">Apple App Store</a>.
+        </Alert>
 
           <Typography component="h5" variant="h5" gutterBottom>1. Pick an example widget</Typography>
           <Typography variant="body1" gutterBottom color="textSecondary"  >
