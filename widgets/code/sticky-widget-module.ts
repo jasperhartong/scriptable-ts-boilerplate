@@ -6,12 +6,6 @@
 
 import { WidgetModule } from "./utils";
 
-interface WidgetFields {
-    pretitle: string;
-    title: string;
-    subtitle: string;
-    color: string;
-}
 
 const createWidget = (note: string) => {
     let widget = new ListWidget()

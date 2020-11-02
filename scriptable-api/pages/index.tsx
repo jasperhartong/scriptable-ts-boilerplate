@@ -1,4 +1,4 @@
-import { Container, makeStyles, TextField, Typography } from "@material-ui/core"
+import { Container, makeStyles, Paper, TextField, Typography } from "@material-ui/core"
 import { readFileSync } from "fs"
 import { GetStaticProps } from "next"
 import Head from 'next/head'
@@ -34,8 +34,14 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     overflow: "auto",
     flexWrap: "nowrap",
+    alignItems: "center",
     marginBottom: theme.spacing(4),
     marginLeft: theme.spacing(-1),
+  },
+  paperComingSoon: {
+    height: 154,
+    width: 280,
+    textAlign: "center"
   },
   textField: {
     marginTop: theme.spacing(1),
@@ -109,8 +115,6 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
 
 
       <Container maxWidth="md">
-
-
         <Typography component="h4" variant="h4" gutterBottom>Demo</Typography>
 
         <Typography component="h5" variant="h5" gutterBottom>1. Pick an example widget</Typography>
@@ -125,6 +129,11 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
               onSelect={() => setSelectedModule(wm)}
               isSelected={wm.fileName === selectedModule?.fileName} />
           )}
+          <Paper className={classes.paperComingSoon} >
+            <Typography variant="caption" color="textSecondary" component="div" style={{ marginTop: 68 }}>
+              More examples coming soon!
+          </Typography>
+          </Paper>
         </div>
 
         <Typography color={selectedModule ? "textPrimary" : "textSecondary"} component="h5" variant="h5" gutterBottom>2. Provide its default input</Typography>
@@ -140,7 +149,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           onChange={(event) => setWidgetParameterValue(event.currentTarget.value)}
         />
 
-        <Typography color={selectedModule ? "textPrimary" : "textSecondary"} component="h5" variant="h5" gutterBottom>3. Copy snippet for Scriptable app</Typography>
+        <Typography color={selectedModule ? "textPrimary" : "textSecondary"} component="h5" variant="h5" gutterBottom>3. Copy the snippet</Typography>
 
         {/* The key is just a quick hack to remount the code on every change to make highlight work */}
         <CodeWithClipboard
@@ -149,6 +158,16 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           inActive={!selectedModule}
           collapsedHeight={selectedModule ? 300 : 100}
         />
+
+        <div style={{ margin: 24 }} />
+        <Typography color={selectedModule ? "textPrimary" : "textSecondary"} component="h5" variant="h5" gutterBottom>4. Paste the snippet</Typography>
+        <Typography variant="body1" gutterBottom component="div" >
+          Open the Scriptable App, create a new script with the plus button and paste the snippet.
+        </Typography>
+        <Typography variant="body1" color="textSecondary" gutterBottom component="div" >
+          Now it's ready to be added as a widget. Just go in wiggle mode and add it to your homescreen!
+        </Typography>
+
       </Container>
       <div className={classes.developmentSection}>
         <Container maxWidth="md">
