@@ -7,8 +7,8 @@ const loaderBanner = `
 `;
 
 const widgetModuleInputs = [
-    "code/sticky-widget-module.ts",
-    "code/covid19-widget-module.ts"
+    "stickyWidgetModule",
+    "covid19WidgetModule"
 ]
 
 export default [
@@ -22,13 +22,13 @@ export default [
         },
         plugins: [typescript()]
     },
-    ...(widgetModuleInputs.map(input => ({
-        input,
+    ...(widgetModuleInputs.map(name => ({
+        input: `code/${name}.ts`,
         output: {
             dir: '../scriptable-api/public/compiled-widgets/widget-modules',
-            format: 'cjs',
+            format: 'iife',
             strict: false,
-            exports: "default"
+            name: name
         },
         plugins: [typescript()]
 

@@ -20,5 +20,5 @@ const widgetModule: WidgetModule = {
 }
 
 
-export default widgetModule
+module.exports = widgetModule;
 
