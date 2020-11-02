@@ -2,6 +2,7 @@
     "name": "Sticky Widget",
     "description": "Just a simple sticky widget",
     "paramLabel": "The text on the sticky",
+    "paramPlaceHolder": "Scriptable is fun!",
     "loaderArgs": {
         "iconColor": "yellow",
         "iconGlyph": "sticky-note"

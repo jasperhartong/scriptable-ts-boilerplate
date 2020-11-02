@@ -47,7 +47,8 @@ const useStyles = makeStyles(theme => ({
   textField: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(4),
-    width: 280
+    width: "100%",
+    maxWidth: 420
   },
   developmentSection: {
     background: theme.palette.action.hover,
@@ -145,7 +146,12 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           className={classes.textField}
           value={widgetParameterValue}
           variant="outlined"
+          color="primary"
           label={selectedModule ? selectedModule.meta.paramLabel : "First pick a widget.."}
+          placeholder={selectedModule ? selectedModule.meta.paramPlaceHolder : "First pick a widget.."}
+          InputLabelProps={{
+            shrink: true
+          }}
           disabled={!selectedModule}
           onChange={(event) => setWidgetParameterValue(event.currentTarget.value)}
         />

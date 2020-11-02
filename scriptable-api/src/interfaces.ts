@@ -5,6 +5,7 @@ export interface WidgetModule {
     meta: {
         name: string;
         paramLabel: string;
+        paramPlaceHolder: string;
         description: string;
         loaderArgs: WidgetLoaderArgs;
     }
