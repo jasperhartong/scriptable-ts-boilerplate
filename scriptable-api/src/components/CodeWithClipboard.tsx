@@ -1,4 +1,4 @@
-import { Button, Collapse, fade, Fade, Link, makeStyles, useTheme } from "@material-ui/core";
+import { Button, ButtonBase, Collapse, Fab, Fade, makeStyles, useTheme } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ClipboardIcon from "@material-ui/icons/FileCopy";
@@ -35,12 +35,16 @@ const useStyles = makeStyles(theme => ({
     },
     toggle: {
         position: "absolute",
-        bottom: 0,
+        bottom: theme.spacing(1),
         textAlign: "center",
         paddingTop: theme.spacing(1),
         width: "100%",
         display: "block",
-        background: fade(theme.palette.background.default, 0.4)
+        opacity: 0.85,
+        transition: "all 300ms ease-in-out",
+        "&:hover": {
+            opacity: 1
+        }
     },
     chevron: {
         transition: "all 300ms ease-in-out",
@@ -109,9 +113,9 @@ export const CodeWithClipboard = (
                         </pre>
                     </div>
                 </Collapse>
-                {!inActive && <Link href="#" className={classes.toggle} variant="subtitle1" underline="none" onClick={handleToggle} color="textPrimary">
-                    <ChevronRightIcon className={clsx({ [classes.chevron]: true, [classes.chevronUp]: !isCollapsed })} />
-                </Link>}
+                {!inActive && <ButtonBase className={classes.toggle} onClick={handleToggle} color="textPrimary">
+                    <Fab size="small"><ChevronRightIcon className={clsx({ [classes.chevron]: true, [classes.chevronUp]: !isCollapsed })} /></Fab>
+                </ButtonBase>}
             </div>
         </Fade>
     )
