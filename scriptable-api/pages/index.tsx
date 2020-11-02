@@ -88,7 +88,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
         <Container maxWidth="md">
           <Typography component="h3" variant="h3" color="inherit">Scriptable Widgets Starterkit</Typography>
           <Typography variant="h5" style={{ opacity: 0.6 }} gutterBottom >
-            Makes creating iOS widgets with <a style={{ color: "inherit" }} href="https://scriptable.app">Scriptable App</a> even more fun!
+            Makes creating iOS widgets with the <a style={{ color: "inherit" }} href="https://scriptable.app">Scriptable App</a> even more fun!
           </Typography>
         </Container>
       </div>

@@ -30,7 +30,12 @@ const createWidget = (note: string) => {
         gradient.locations = [0.0, 1]
         widget.backgroundGradient = gradient
     }
-    return widget;
+    let noteText = widget.addText(note)
+    noteText.textColor = fgColor
+    noteText.font = Font.mediumRoundedSystemFont(24)
+    noteText.textOpacity = 0.8
+    noteText.minimumScaleFactor = 0.25
+    return widget
 }
 
 const widgetModule: WidgetModule = {
