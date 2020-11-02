@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center"
   },
   textField: {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(4),
     width: "100%",
     maxWidth: 420
@@ -117,7 +117,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
 
 
       <Container maxWidth="md">
-        <Typography component="h4" variant="h4" gutterBottom>Try the included examples</Typography>
+        <Typography component="h4" variant="h4" gutterBottom>Try the examples</Typography>
 
         <Typography component="h5" variant="h5" gutterBottom>1. Pick an example widget</Typography>
         <Typography variant="body1" gutterBottom color="textSecondary"  >
