@@ -13,7 +13,7 @@ const widgetModuleInputs = [
 
 export default [
     {
-        input: 'code/widget-loader.ts',
+        input: 'code/widgetLoader.ts',
         output: {
             dir: '../scriptable-api/public/compiled-widgets/',
             format: 'iife',
