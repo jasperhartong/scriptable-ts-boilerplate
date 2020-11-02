@@ -1,32 +1,5 @@
 (function () {
 
-    // async function getSecret(): Promise<string | undefined> {
-    //     let secret = args.widgetParameter;
-    //     if (!secret && config.runsInApp) {
-    //         const alert = new Alert();
-    //         alert.title = "Please fill in your secret";
-    //         alert.message = "The secret can also be filled in the parameter field of the widget settings (tap on widget in wiggle mode)";
-    //         alert.addSecureTextField("secret")
-    //         alert.addAction("Done")
-    //         await alert.presentAlert()
-    //         secret = alert.textFieldValue(0)
-    //     }
-    //     return secret || "INVALID_SECRET";
-    // }
-    // async function getData<T>(url: string): Promise<Response<T>> {
-    //     try {
-    //         const req = new Request(url)
-    //         const response: Response<T> = await req.loadJSON()
-    //         return response
-    //     } catch (error) {
-    //         handleError("2002")
-    //         throw Error(error)
-    //     }
-    // }
-    // async function getDataWithSecret<T>(createUrl: (secret?: string) => string): Promise<Response<T>> {
-    //     const secret = await getSecret();
-    //     return getData<T>(createUrl(secret));
-    // }
     function createTextWidget(pretitle, title, subtitle, color) {
         let w = new ListWidget();
         w.backgroundColor = new Color(color, 1);
