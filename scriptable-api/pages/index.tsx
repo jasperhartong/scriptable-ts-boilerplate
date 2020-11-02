@@ -1,4 +1,4 @@
-import { Container, makeStyles, Paper, TextField, Typography } from "@material-ui/core"
+import { Container, Link, makeStyles, Paper, TextField, Typography } from "@material-ui/core"
 import { readFileSync } from "fs"
 import { GetStaticProps } from "next"
 import Head from 'next/head'
@@ -116,7 +116,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
 
 
       <Container maxWidth="md">
-        <Typography component="h4" variant="h4" gutterBottom>Create a hot-reloading widget now</Typography>
+        <Typography component="h4" variant="h4" gutterBottom>Try the included examples</Typography>
 
         <Typography component="h5" variant="h5" gutterBottom>1. Pick an example widget</Typography>
         <Typography variant="body1" gutterBottom color="textSecondary"  >
@@ -172,14 +172,9 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
       </Container>
       <div className={classes.developmentSection}>
         <Container maxWidth="md">
-          <Typography component="h4" variant="h4" gutterBottom>Documentation</Typography>
-          <Typography variant="body1" gutterBottom color="textSecondary"  >
-            Read the documentation on Github in order to:
-        </Typography>
+          <Typography component="h4" variant="h4" gutterBottom>Try the boilerplate</Typography>
           <Typography variant="body1" gutterBottom component="div" >
-            <li><a href="#">Develop locally</a></li>
-            <li><a href="#">Contribute to the boilerplate and its examples</a></li>
-            <li><a href="#">Report issues</a></li>
+            Visit the <Link href="https://github.com/jasperhartong/scriptable-ts-boilerplate">Github repo</Link> or the <Link href="https://docs.scriptable.app">official Scriptable Documentation</Link>. Follow any updates on Twitter <Link href="https://twitter.com/jasperhartong">@jasperhartong</Link>.
           </Typography>
         </Container>
 

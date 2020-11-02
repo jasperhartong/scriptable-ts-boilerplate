@@ -1,4 +1,4 @@
-import { Collapse, fade, Fade, IconButton, Link, makeStyles, Tooltip, useTheme } from "@material-ui/core";
+import { Button, Collapse, fade, Fade, Link, makeStyles, useTheme } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ClipboardIcon from "@material-ui/icons/FileCopy";
@@ -29,7 +29,8 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
         position: "absolute",
-        right: 0,
+        right: theme.spacing(2),
+        top: theme.spacing(1),
         color: "white"
     },
     toggle: {
@@ -88,16 +89,20 @@ export const CodeWithClipboard = (
                 <Collapse in={!isCollapsed} collapsedHeight={collapsedHeight}>
                     <div >
                         {!inActive && isSupported && (
-                            <Tooltip title="Copy">
-                                <IconButton
-                                    className={classes.button}
-                                    color="inherit"
-                                    onClick={handleCopy}
-                                    style={{ marginLeft: theme.spacing(2) }}
-                                >
-                                    {clipboard.copied ? <CheckCircleIcon /> : <ClipboardIcon />}
-                                </IconButton>
-                            </Tooltip>
+                            <Button onClick={handleCopy} className={classes.button}>
+                                <span style={{ marginRight: 8 }}>Copy</span>
+                                {clipboard.copied ? <CheckCircleIcon /> : <ClipboardIcon />}
+                            </Button>
+                            // <Tooltip placement="left" open={true} title="Copy" >
+                            //     <IconButton
+                            //         className={classes.button}
+                            //         color="inherit"
+                            //         onClick={handleCopy}
+                            //         style={{ marginLeft: theme.spacing(2) }}
+                            //     >
+
+                            //     </IconButton>
+                            // </Tooltip>
                         )}
                         <pre className={classes.code} ref={preElement}>
                             <code>{value}</code>
