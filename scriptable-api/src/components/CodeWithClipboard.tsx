@@ -93,7 +93,7 @@ export const CodeWithClipboard = (
                 <Collapse in={!isCollapsed} collapsedHeight={collapsedHeight}>
                     <div >
                         {!inActive && isSupported && (
-                            <Button onClick={handleCopy} className={classes.button}>
+                            <Button variant="contained" color="primary" onClick={handleCopy} className={classes.button}>
                                 <span style={{ marginRight: 8 }}>Copy</span>
                                 {clipboard.copied ? <CheckCircleIcon /> : <ClipboardIcon />}
                             </Button>
