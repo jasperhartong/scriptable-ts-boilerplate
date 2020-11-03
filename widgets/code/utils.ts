@@ -82,7 +82,7 @@ async function downloadWidgetModule({ fileName, rootUrl, forceDownload = false }
     const libraryUrl = rootUrl + fileName + '.js'
 
     // Check if an etag was saved for this file
-    if (fm.fileExists(libraryEtagPath)) {
+    if (fm.fileExists(libraryEtagPath) && !forceDownload) {
         const lastEtag = fm.readString(libraryEtagPath)
         const headerReq = new Request(libraryUrl);
         headerReq.method = "HEAD";
