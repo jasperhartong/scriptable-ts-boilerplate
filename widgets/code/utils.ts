@@ -6,10 +6,18 @@ export interface WidgetModule {
     createWidget: (params: WidgetModuleParams) => Promise<ListWidget>;
 }
 
-export const argsConfig = {
+interface DownloadWidgetModuleArgs {
+    fileName: string;
+    rootUrl: string;
+    widgetParameter: string;
+    downloadQueryString: string;
+}
+
+export const argsConfig: DownloadWidgetModuleArgs = {
     fileName: "__fileName__",
     rootUrl: "__rootUrl__",
-    widgetParameter: "__widgetParameter__"
+    widgetParameter: "__widgetParameter__",
+    downloadQueryString: "__downloadQueryString__",
 }
 
 
@@ -62,48 +70,54 @@ async function handleError(code: string = "") {
     }
 }
 
+const enforceDir = (fm: FileManager, path: string) => {
+    if (fm.fileExists(path) && !fm.isDirectory(path)) {
+        fm.remove(path)
+    }
+    if (!fm.fileExists(path)) {
+        fm.createDirectory(path)
+    }
+}
 
-async function downloadWidgetModule({ fileName, rootUrl, forceDownload = false }: { fileName: string, rootUrl: string, forceDownload?: boolean }) {
+async function downloadWidgetModule({ fileName, rootUrl, downloadQueryString }: DownloadWidgetModuleArgs, forceDownload = false) {
     const fm = FileManager.local()
+    // const scriptPath = module.filename
 
-    const scriptPath = module.filename
-    const libraryDir = scriptPath.replace(fm.fileName(scriptPath, true), fm.fileName(scriptPath, false))
+    const widgetLoaderDir = fm.joinPath(fm.libraryDirectory(), "widget-loader")
+    enforceDir(fm, widgetLoaderDir);
 
-    if (fm.fileExists(libraryDir) && !fm.isDirectory(libraryDir)) {
-        fm.remove(libraryDir)
-    }
-    if (!fm.fileExists(libraryDir)) {
-        fm.createDirectory(libraryDir)
-    }
-    const libraryFilename = fileName + '.js'
-    const libraryEtag = fileName + '.etag'
-    const libraryPath = fm.joinPath(libraryDir, libraryFilename)
-    const libraryEtagPath = fm.joinPath(libraryDir, libraryEtag)
-    const libraryUrl = rootUrl + fileName + '.js'
+    const widgetModuleDir = fm.joinPath(widgetLoaderDir, fileName)
+    enforceDir(fm, widgetModuleDir);
+
+    const widgetModuleFilename = fileName + '.js'
+    const widgetModuleEtag = fileName + '.etag'
+    const widgetModulePath = fm.joinPath(widgetModuleDir, widgetModuleFilename)
+    const widgetModuleEtagPath = fm.joinPath(widgetModuleDir, widgetModuleEtag)
+    const widgetModuleDownloadUrl = rootUrl + widgetModuleFilename + (downloadQueryString.startsWith("?") ? downloadQueryString : "")
 
     // Check if an etag was saved for this file
-    if (fm.fileExists(libraryEtagPath) && !forceDownload) {
-        const lastEtag = fm.readString(libraryEtagPath)
-        const headerReq = new Request(libraryUrl);
+    if (fm.fileExists(widgetModuleEtagPath) && !forceDownload) {
+        const lastEtag = fm.readString(widgetModuleEtagPath)
+        const headerReq = new Request(widgetModuleDownloadUrl);
         headerReq.method = "HEAD";
         await headerReq.load()
         const etag = getResponseHeader(headerReq, "Etag");
         if (lastEtag === etag) {
-            console.log(`ETag is same, return cached file for for ${libraryUrl}`)
-            return fm.fileName(scriptPath, false) + '/' + libraryFilename
+            console.log(`ETag is same, return cached file for ${widgetModuleDownloadUrl}`)
+            return widgetModulePath;
         }
     }
 
-    console.log("Downloading library file '" + libraryUrl + "' to '" + libraryPath + "'")
-    const req = new Request(libraryUrl)
+    console.log("Downloading library file '" + widgetModuleDownloadUrl + "' to '" + widgetModulePath + "'")
+    const req = new Request(widgetModuleDownloadUrl)
     const libraryFile = await req.load()
     const etag = getResponseHeader(req, "Etag");
     if (etag) {
-        fm.writeString(libraryEtagPath, etag)
+        fm.writeString(widgetModuleEtagPath, etag)
     }
-    fm.write(libraryPath, libraryFile)
+    fm.write(widgetModulePath, libraryFile)
 
-    return fm.fileName(scriptPath, false) + '/' + libraryFilename
+    return widgetModulePath
 }
 
 const getResponseHeader = (request: Request, header: string) => {
