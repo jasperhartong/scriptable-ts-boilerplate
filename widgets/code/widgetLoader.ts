@@ -12,7 +12,6 @@ downloadWidgetModule(argsConfig)
             debug: DEBUG
         }
         const widget = await widgetModule.createWidget(params)
-        // widget.url = "TODO: allow to set url in argsConfig"
 
         // preview the widget
         if (!config.runsInWidget) {
@@ -21,6 +20,8 @@ downloadWidgetModule(argsConfig)
 
         Script.setWidget(widget)
         Script.complete()
+    }).catch(error => {
+        console.error(error);
     })
 
 
