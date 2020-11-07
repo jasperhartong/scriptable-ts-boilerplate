@@ -47,6 +47,13 @@ function createTextWidget(pretitle: string, title: string, subtitle: string, col
     return w
 }
 
+export const logToWidget = (widget: ListWidget, message: string) => {
+    console.log(message)
+    let a = widget.addText(message)
+    a.textColor = Color.red()
+    a.textOpacity = 0.8
+    a.font = Font.systemFont(10)
+}
 
 function createErrorWidget(subtitle: string) {
     return createTextWidget("ERROR", "Widget Error", subtitle, "#000")

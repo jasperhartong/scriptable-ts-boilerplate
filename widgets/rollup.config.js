@@ -16,7 +16,7 @@ export default [
         input: 'code/widgetLoader.ts',
         output: {
             dir: '../scriptable-api/public/compiled-widgets/',
-            format: 'iife',
+            format: 'es',
             strict: false,
             banner: loaderBanner,
         },
