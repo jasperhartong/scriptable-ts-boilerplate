@@ -3,10 +3,10 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: __iconColor__; icon-glyph: __iconGlyph__;
 
-const argsConfig = {
-    fileName: "__fileName__",
+const widgetModuleDownloadConfig = {
+    moduleName: "__moduleName__",
     rootUrl: "__rootUrl__",
-    widgetParameter: "__widgetParameter__",
+    defaultWidgetParameter: "__defaultWidgetParameter__",
     downloadQueryString: "__downloadQueryString__",
 };
 const enforceDir = (fm, path) => {
@@ -17,15 +17,15 @@ const enforceDir = (fm, path) => {
         fm.createDirectory(path);
     }
 };
-async function downloadWidgetModule({ fileName, rootUrl, downloadQueryString }, forceDownload = false) {
+const ROOT_MODULE_PATH = "widget-loader";
+async function getOrCreateWidgetModule({ moduleName, rootUrl, downloadQueryString }, forceDownload = false) {
     const fm = FileManager.local();
-    // const scriptPath = module.filename
-    const widgetLoaderDir = fm.joinPath(fm.libraryDirectory(), "widget-loader");
+    const widgetLoaderDir = fm.joinPath(fm.libraryDirectory(), ROOT_MODULE_PATH);
     enforceDir(fm, widgetLoaderDir);
-    const widgetModuleDir = fm.joinPath(widgetLoaderDir, fileName);
+    const widgetModuleDir = fm.joinPath(widgetLoaderDir, moduleName);
     enforceDir(fm, widgetModuleDir);
-    const widgetModuleFilename = fileName + '.js';
-    const widgetModuleEtag = fileName + '.etag';
+    const widgetModuleFilename = `${moduleName}.js`;
+    const widgetModuleEtag = `${moduleName}.etag`;
     const widgetModulePath = fm.joinPath(widgetModuleDir, widgetModuleFilename);
     const widgetModuleEtagPath = fm.joinPath(widgetModuleDir, widgetModuleEtag);
     const widgetModuleDownloadUrl = rootUrl + widgetModuleFilename + (downloadQueryString.startsWith("?") ? downloadQueryString : "");
@@ -61,10 +61,11 @@ const getResponseHeader = (request, header) => {
 };
 
 const DEBUG = false;
-const widgetModulePath = await downloadWidgetModule(argsConfig);
+const FORCE_DOWNLOAD = false;
+const widgetModulePath = await getOrCreateWidgetModule(widgetModuleDownloadConfig, FORCE_DOWNLOAD);
 const widgetModule = importModule(widgetModulePath);
 const widget = await widgetModule.createWidget({
-    widgetParameter: args.widgetParameter || argsConfig.widgetParameter,
+    widgetParameter: args.widgetParameter || widgetModuleDownloadConfig.defaultWidgetParameter,
     debug: DEBUG
 });
 // preview the widget if in app

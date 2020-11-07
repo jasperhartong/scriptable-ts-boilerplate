@@ -70,8 +70,8 @@ const setWidgetModule = (widgetLoader: string, rootUrl: string, widgetModule?: W
     return widgetLoader;
   }
   let filled = widgetLoader;
-  const { fileName, meta } = widgetModule;
-  const args = { fileName, ...meta.loaderArgs, rootUrl: rootUrl, widgetParameter: widgetParameter };
+  const { moduleName, meta } = widgetModule;
+  const args = { moduleName, ...meta.loaderArgs, rootUrl: rootUrl, widgetParameter: widgetParameter };
 
   for (let arg of Object.keys(args)) {
     const reg = new RegExp(`__${arg}__`, "gim")
@@ -140,9 +140,9 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
             {widgetModules.map(wm =>
               <WidgetModuleCard
                 widgetModule={wm}
-                key={wm.fileName}
+                key={wm.moduleName}
                 onSelect={() => setSelectedModule(wm)}
-                isSelected={wm.fileName === selectedModule?.fileName} />
+                isSelected={wm.moduleName === selectedModule?.moduleName} />
             )}
             <Paper className={classes.paperComingSoon} >
               <Typography variant="caption" color="textSecondary" component="div" style={{ marginTop: 68 }}>
@@ -237,16 +237,16 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
 
 export const getStaticProps: GetStaticProps<{}, {}> = async ({ params }) => {
   const widgetLoaderPath = resolve('./public/compiled-widgets/widgetLoader.js');
-  const widgetModuleFilenames = ["stickyWidgetModule", "covid19WidgetModule"]
+  const widgetModuleModuleNames = ["stickyWidgetModule", "covid19WidgetModule"]
   const props: PageProps = {
     widgetLoader: readFileSync(widgetLoaderPath).toString("utf-8"),
-    widgetModules: widgetModuleFilenames.map(fileName => {
-      const rawScript = readFileSync(resolve(`./public/compiled-widgets/widget-modules/${fileName}.js`)).toString("utf-8");
-      const meta = JSON.parse(readFileSync(resolve(`./public/compiled-widgets/widget-modules/${fileName}.meta.json`)).toString("utf-8")) as WidgetModule["meta"];
+    widgetModules: widgetModuleModuleNames.map(moduleName => {
+      const rawScript = readFileSync(resolve(`./public/compiled-widgets/widget-modules/${moduleName}.js`)).toString("utf-8");
+      const meta = JSON.parse(readFileSync(resolve(`./public/compiled-widgets/widget-modules/${moduleName}.meta.json`)).toString("utf-8")) as WidgetModule["meta"];
       return ({
         rawScript,
-        fileName,
-        imageSrc: `/compiled-widgets/widget-modules/${fileName}.png`,
+        moduleName,
+        imageSrc: `/compiled-widgets/widget-modules/${moduleName}.png`,
         meta
       })
     })
