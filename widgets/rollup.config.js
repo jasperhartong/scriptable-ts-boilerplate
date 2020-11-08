@@ -1,15 +1,15 @@
 import typescript from '@rollup/plugin-typescript';
+import { readdirSync } from "fs";
+import { parse } from "path";
 
-const loaderBanner = `
+const WIDGET_LOADER_BANNER = `
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: __iconColor__; icon-glyph: __iconGlyph__;
 `;
 
-const widgetModuleInputs = [
-    "stickyWidgetModule",
-    "covid19WidgetModule"
-]
+const widgetModuleFilenames = readdirSync("code/widget-modules/")
+    .filter(fileName => fileName.endsWith("WidgetModule.ts"));
 
 export default [
     {
@@ -18,17 +18,17 @@ export default [
             dir: '../scriptable-api/public/compiled-widgets/',
             format: 'es',
             strict: false,
-            banner: loaderBanner,
+            banner: WIDGET_LOADER_BANNER,
         },
         plugins: [typescript()]
     },
-    ...(widgetModuleInputs.map(name => ({
-        input: `code/${name}.ts`,
+    ...(widgetModuleFilenames.map(fileName => ({
+        input: `code/widget-modules/${fileName}`,
         output: {
             dir: '../scriptable-api/public/compiled-widgets/widget-modules',
             format: 'iife',
             strict: false,
-            name: name
+            name: parse(fileName).name
         },
         plugins: [typescript()]
 

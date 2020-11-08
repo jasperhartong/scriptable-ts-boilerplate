@@ -1,7 +1,6 @@
 // Based on https://github.com/drewkerr/scriptable/blob/main/Sticky%20widget.js
 
-import { WidgetModule } from "./utils";
-
+import { IWidgetModule } from "code/utils/interfaces"
 
 const createWidget = (note: string) => {
     let widget = new ListWidget()
@@ -28,7 +27,7 @@ const createWidget = (note: string) => {
     return widget
 }
 
-const widgetModule: WidgetModule = {
+const widgetModule: IWidgetModule = {
     createWidget: async (params) => {
         return createWidget(params.widgetParameter)
     }
