@@ -1,4 +1,4 @@
-import { DynamicColor } from "code/utils/color"
+import { DefaultColor } from "code/utils/color"
 
 interface Props {
     to: ListWidget | WidgetStack;
@@ -11,7 +11,7 @@ export const addSymbol = (
     {
         to,
         symbol = 'applelogo',
-        color = DynamicColor({ lightColor: Color.white(), darkColor: Color.black() }),
+        color = DefaultColor(),
         size = 20,
     }: Props
 ) => {

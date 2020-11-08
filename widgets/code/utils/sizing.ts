@@ -10,8 +10,8 @@ type SizeMap = {
     }
 }
 
-const getWidgetSizeInPoint = (
-    widgetSize: WidgetSize = (config.runsInWidget ? config.widgetFamily : null) as WidgetSize
+export const getWidgetSizeInPoint = (
+    widgetSize: WidgetSize = (config.widgetFamily ? config.widgetFamily : null) as WidgetSize
 ) => {
     // stringify device screen size
     const devSize = `${Device.screenSize().width}x${Device.screenSize().height}`

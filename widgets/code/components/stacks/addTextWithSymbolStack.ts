@@ -1,4 +1,4 @@
-import { DynamicColor } from "code/utils/color"
+import { DefaultColor } from "code/utils/color"
 import { addSymbol } from "./addSymbol"
 
 interface Props {
@@ -15,8 +15,8 @@ export const addTextWithSymbolStack = (
         to,
         text,
         symbol,
-        textColor = DynamicColor({ lightColor: Color.white(), darkColor: Color.black() }),
-        symbolColor = DynamicColor({ lightColor: Color.white(), darkColor: Color.black() }),
+        textColor = DefaultColor(),
+        symbolColor = DefaultColor(),
         fontSize = 20,
     }: Props
 ) => {

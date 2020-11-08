@@ -1,3 +1,4 @@
+import { SimpleBarChartImage } from "code/components/SimpleBarChartImage";
 import { addFlexSpacer } from "code/components/stacks/addFlexSpacer";
 import { addTextWithSymbolStack } from "code/components/stacks/addTextWithSymbolStack";
 import { UnsplashImage } from "code/components/UnsplashImage";
@@ -13,7 +14,32 @@ const widgetModule: IWidgetModule = {
         mainStack.layoutVertically();
 
         addStatsStack({ stack: mainStack })
+        mainStack.addSpacer(4)
         addFlexSpacer({ to: mainStack })
+
+
+        const barChartStack = mainStack.addStack();
+        barChartStack.layoutHorizontally()
+        barChartStack.topAlignContent()
+        addFlexSpacer({ to: barChartStack })
+
+
+        barChartStack.addImage(SimpleBarChartImage({
+            series: [800_000, 780_000, 760_000, 738_000, 680_000, 600_000, 554_600, 438_000],
+            width: 300,
+            height: 200,
+            color: new Color(Color.white().hex, 0.8)
+        }))
+        addFlexSpacer({ to: barChartStack })
+
+        mainStack.addSpacer(4)
+
+        let _text = mainStack.addText("50% decrease of cases since 2010")
+        _text.centerAlignText()
+        _text.textColor = new Color(Color.white().hex, 0.8);
+        _text.font = Font.systemFont(12)
+
+
         return widget;
 
     }
