@@ -9,7 +9,7 @@ const widgetModule: IWidgetModule = {
     createWidget: async (params) => {
         const widget = new ListWidget();
         widget.setPadding(8, 0, 0, 0)
-        widget.backgroundImage = await UnsplashImage({ id: "KuF8-6EbBMs", width: 800, height: 800 });
+        widget.backgroundImage = await UnsplashImage({ id: "KuF8-6EbBMs", width: 500, height: 500 });
 
 
         const mainStack = widget.addStack();

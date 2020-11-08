@@ -99,13 +99,25 @@
         return _stack;
     };
 
+    const ErrorImage = ({ error, width, height }) => {
+        const text = `Image Error: \n ${(error === null || error === void 0 ? void 0 : error.message) || error}`;
+        const dc = new DrawContext();
+        dc.size = new Size(width || 200, height || 200);
+        dc.respectScreenScale = true;
+        dc.opaque = false;
+        dc.setTextColor(Color.red());
+        dc.setFont(Font.semiboldSystemFont(dc.size.width / 10));
+        dc.drawText(text, new Point(dc.size.width / 10, 8));
+        return dc.getImage();
+    };
+
     const UnsplashImage = async ({ id = "random", width = 600, height = 600 }) => {
         const req = new Request(`https://source.unsplash.com/${id}/${width}x${height}`);
         try {
             return await req.loadImage();
         }
         catch (error) {
-            return new Image();
+            return ErrorImage({ width, height, error });
         }
     };
 
@@ -113,7 +125,7 @@
         createWidget: async (params) => {
             const widget = new ListWidget();
             widget.setPadding(8, 0, 0, 0);
-            widget.backgroundImage = await UnsplashImage({ id: "KuF8-6EbBMs", width: 800, height: 800 });
+            widget.backgroundImage = await UnsplashImage({ id: "KuF8-6EbBMs", width: 500, height: 500 });
             const mainStack = widget.addStack();
             mainStack.layoutVertically();
             addFlexSpacer({ to: mainStack });

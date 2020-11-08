@@ -1,3 +1,5 @@
+import { ErrorImage } from "./ErrorImage";
+
 interface Props {
     id?: string;
     width?: number;
@@ -15,7 +17,7 @@ export const UnsplashImage = async (
     try {
         return await req.loadImage();
     } catch (error) {
-        return new Image()
+        return ErrorImage({ width, height, error })
     }
-
 }
+
