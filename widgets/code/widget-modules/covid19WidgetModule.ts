@@ -1,7 +1,7 @@
 // Based on https://gist.github.com/planecore/e7b4c1e5db2dd28b1a023860e831355e
 
-import { ErrorWidget } from "code/components/ErrorWidget"
-import { SimpleTextWidget } from "code/components/SimpleTextWidget"
+import { ErrorWidget } from "code/components/widgets/ErrorWidget"
+import { SimpleTextWidget } from "code/components/widgets/SimpleTextWidget"
 import { IWidgetModule } from "code/utils/interfaces"
 
 
