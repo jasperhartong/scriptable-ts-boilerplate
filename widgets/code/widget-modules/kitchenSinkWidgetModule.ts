@@ -1,7 +1,7 @@
-import { SparkBarImage } from "code/components/SparkBarImage";
+import { SparkBarImage } from "code/components/images/SparkBarImage";
+import { UnsplashImage } from "code/components/images/UnsplashImage";
 import { addFlexSpacer } from "code/components/stacks/addFlexSpacer";
 import { addTextWithSymbolStack } from "code/components/stacks/addTextWithSymbolStack";
-import { UnsplashImage } from "code/components/UnsplashImage";
 import { IWidgetModule } from "code/utils/interfaces";
 
 
