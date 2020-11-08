@@ -7,17 +7,18 @@ interface Props {
     width?: number,
     height?: number,
     color?: Color,
+    lastBarColor?: Color,
 }
 
-export const SimpleBarChartImage = (
+export const SparkBarImage = (
     {
         series,
         width,
         height,
-        color = DefaultColor()
+        color = DefaultColor(),
+        lastBarColor = Color.orange()
     }: Props
 ) => {
-
     const widgetSize = getWidgetSizeInPoint()
     const dc = new DrawContext()
     dc.size = new Size(width || widgetSize?.width || 200, height || widgetSize?.height || 200)
@@ -32,7 +33,7 @@ export const SimpleBarChartImage = (
 
     // Draw the bars
     pixelValues.forEach((v, i) => {
-        dc.setFillColor(barColor)
+        dc.setFillColor(i === pixelValues.length - 1 ? lastBarColor : barColor)
         const x = (dc.size.width * i / pixelValues.length)
         const barHeight = v;
         const y = dc.size.height - barHeight
