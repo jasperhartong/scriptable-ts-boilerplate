@@ -70,10 +70,11 @@ The demo page is also available on `YOUR_LOCAL_DNS_NAME:3000` (without your widg
 Paste a compiled `WidgetLoader` (can be found in `./scriptable-api/public/compiled-widgets/widgetLoader.js`, or on the demo site) into Scriptable with the following `argsConfig` and press play.
 ```
 const argsConfig = {
-        fileName: "camelCasedNameEndingOnWidgetModule",
-        rootUrl: "http://macbook-pro.local:3000/compiled-widgets/widget-modules/",
-        widgetParameter: ""
-    };
+    fileName: "camelCasedNameEndingOnWidgetModule",
+    rootUrl: "http://macbook-pro.local:3000/compiled-widgets/widget-modules/",
+    defaultWidgetParameter: "",
+    downloadQueryString: "",
+};
 ```
 
 Note that the `widgetParameter` is the default parameter to be sent into `createWidget`, this parameter can be overruled by filling it into the setting of a widget.
