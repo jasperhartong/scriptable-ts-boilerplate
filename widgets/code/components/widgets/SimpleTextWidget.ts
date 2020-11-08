@@ -1,3 +1,5 @@
+import { addFlexSpacer } from "code/components/stacks/addFlexSpacer"
+
 export const SimpleTextWidget = (pretitle: string, title: string, subtitle: string, color: string) => {
     let w = new ListWidget()
     w.backgroundColor = new Color(color, 1)
@@ -14,9 +16,7 @@ export const SimpleTextWidget = (pretitle: string, title: string, subtitle: stri
     subTxt.textColor = Color.white()
     subTxt.textOpacity = 0.8
     subTxt.font = Font.systemFont(12)
-
-    // @ts-ignore
-    w.addSpacer(null)
+    addFlexSpacer({ to: w });
     let a = w.addText("")
     a.textColor = Color.white()
     a.textOpacity = 0.8

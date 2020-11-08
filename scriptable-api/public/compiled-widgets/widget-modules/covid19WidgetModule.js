@@ -1,5 +1,10 @@
 (function () {
 
+    const addFlexSpacer = ({ to }) => {
+        // @ts-ignore
+        to.addSpacer(null);
+    };
+
     const SimpleTextWidget = (pretitle, title, subtitle, color) => {
         let w = new ListWidget();
         w.backgroundColor = new Color(color, 1);
@@ -16,8 +21,7 @@
         subTxt.textColor = Color.white();
         subTxt.textOpacity = 0.8;
         subTxt.font = Font.systemFont(12);
-        // @ts-ignore
-        w.addSpacer(null);
+        addFlexSpacer({ to: w });
         let a = w.addText("");
         a.textColor = Color.white();
         a.textOpacity = 0.8;

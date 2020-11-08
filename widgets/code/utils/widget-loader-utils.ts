@@ -1,4 +1,4 @@
-import { IWidgetModuleDownloadConfig } from "./interfaces";
+import { IWidgetModuleDownloadConfig } from "code/utils/interfaces";
 
 const ROOT_MODULE_PATH = "widget-loader";
 
@@ -28,27 +28,32 @@ async function getOrCreateWidgetModule(
     const widgetModuleEtagPath = fm.joinPath(widgetModuleDir, widgetModuleEtag)
     const widgetModuleDownloadUrl = rootUrl + widgetModuleFilename + (downloadQueryString.startsWith("?") ? downloadQueryString : "")
 
-    // Check if an etag was saved for this file
-    if (fm.fileExists(widgetModuleEtagPath) && !forceDownload) {
-        const lastEtag = fm.readString(widgetModuleEtagPath)
-        const headerReq = new Request(widgetModuleDownloadUrl);
-        headerReq.method = "HEAD";
-        await headerReq.load()
-        const etag = getResponseHeader(headerReq, "Etag");
-        if (lastEtag === etag) {
-            console.log(`ETag is same, return cached file for ${widgetModuleDownloadUrl}`)
-            return widgetModulePath;
+    try {
+        // Check if an etag was saved for this file
+        if (fm.fileExists(widgetModuleEtagPath) && !forceDownload) {
+            const lastEtag = fm.readString(widgetModuleEtagPath)
+            const headerReq = new Request(widgetModuleDownloadUrl);
+            headerReq.method = "HEAD";
+            await headerReq.load()
+            const etag = getResponseHeader(headerReq, "Etag");
+            if (lastEtag === etag) {
+                console.log(`ETag is same, return cached file for ${widgetModuleDownloadUrl}`)
+                return widgetModulePath;
+            }
         }
-    }
 
-    console.log("Downloading library file '" + widgetModuleDownloadUrl + "' to '" + widgetModulePath + "'")
-    const req = new Request(widgetModuleDownloadUrl)
-    const libraryFile = await req.load()
-    const etag = getResponseHeader(req, "Etag");
-    if (etag) {
-        fm.writeString(widgetModuleEtagPath, etag)
+        console.log("Downloading library file '" + widgetModuleDownloadUrl + "' to '" + widgetModulePath + "'")
+        const req = new Request(widgetModuleDownloadUrl)
+        const libraryFile = await req.load()
+        const etag = getResponseHeader(req, "Etag");
+        if (etag) {
+            fm.writeString(widgetModuleEtagPath, etag)
+        }
+        fm.write(widgetModulePath, libraryFile)
+    } catch (error) {
+        console.error("Downloading module failed, return existing module")
+        console.error(error)
     }
-    fm.write(widgetModulePath, libraryFile)
 
     return widgetModulePath
 }

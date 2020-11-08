@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             maxWidth: 280,
             minWidth: 280,
+            height: 150,
             margin: theme.spacing(2),
             marginLeft: theme.spacing(1),
             transition: "all 300ms ease-in-out",
@@ -33,7 +34,9 @@ const useStyles = makeStyles((theme: Theme) =>
             flex: '1 0 auto',
         },
         cover: {
-            width: 151,
+            width: 150,
+            backgroundSize: "cover",
+            backgroundPositionX: -14
         },
         controls: {
             display: 'flex',
@@ -79,7 +82,6 @@ export const WidgetModuleCard = ({ widgetModule, isSelected, onSelect }: Props) 
                 </div>
             </div>
             <CardMedia
-
                 className={classes.cover}
                 image={widgetModule.imageSrc}
                 title="Live from space album cover"
