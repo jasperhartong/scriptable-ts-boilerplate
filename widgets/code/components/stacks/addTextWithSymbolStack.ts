@@ -1,36 +1,39 @@
+import { DynamicColor } from "code/utils/color"
 import { addSymbol } from "./addSymbol"
 
 interface Props {
-    stack: WidgetStack;
+    to: ListWidget | WidgetStack;
     text: string;
     symbol: string;
-    color?: Color;
+    textColor?: Color;
+    symbolColor?: Color;
     fontSize?: number
 }
 
 export const addTextWithSymbolStack = (
     {
-        stack,
+        to,
         text,
         symbol,
-        color = Color.white(),
+        textColor = DynamicColor({ lightColor: Color.white(), darkColor: Color.black() }),
+        symbolColor = DynamicColor({ lightColor: Color.white(), darkColor: Color.black() }),
         fontSize = 20,
     }: Props
 ) => {
-    const _stack = stack.addStack()
+    const _stack = to.addStack()
     _stack.centerAlignContent()
 
     addSymbol({
-        stack: _stack,
+        to: _stack,
         symbol,
         size: fontSize,
-        color: new Color(color.hex, 0.8)
+        color: symbolColor
     })
 
     _stack.addSpacer(3)
 
     let _text = _stack.addText(text)
-    _text.textColor = color;
+    _text.textColor = textColor;
     _text.font = Font.systemFont(fontSize)
 
     return _stack;

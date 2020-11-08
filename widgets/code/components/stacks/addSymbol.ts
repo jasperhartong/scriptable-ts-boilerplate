@@ -1,5 +1,7 @@
+import { DynamicColor } from "code/utils/color"
+
 interface Props {
-    stack: WidgetStack;
+    to: ListWidget | WidgetStack;
     symbol?: string;
     color?: Color;
     size?: number
@@ -7,14 +9,14 @@ interface Props {
 
 export const addSymbol = (
     {
-        stack,
+        to,
         symbol = 'applelogo',
-        color = Color.white(),
+        color = DynamicColor({ lightColor: Color.white(), darkColor: Color.black() }),
         size = 20,
     }: Props
 ) => {
     const _sym = SFSymbol.named(symbol)
-    const wImg = stack.addImage(_sym.image)
+    const wImg = to.addImage(_sym.image)
     wImg.tintColor = color
     wImg.imageSize = new Size(size, size)
 }

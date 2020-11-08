@@ -1,8 +1,8 @@
 interface Props {
-    stack: WidgetStack;
+    to: ListWidget | WidgetStack;
 }
 
-export const addFlexSpacer = ({ stack }: Props) => {
+export const addFlexSpacer = ({ to }: Props) => {
     // @ts-ignore
-    stack.addSpacer(null);
+    to.addSpacer(null);
 }

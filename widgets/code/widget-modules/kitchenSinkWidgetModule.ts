@@ -13,7 +13,7 @@ const widgetModule: IWidgetModule = {
         mainStack.layoutVertically();
 
         addStatsStack({ stack: mainStack })
-        addFlexSpacer({ stack: mainStack })
+        addFlexSpacer({ to: mainStack })
         return widget;
 
     }
@@ -23,19 +23,21 @@ const addStatsStack = ({ stack }: { stack: WidgetStack }) => {
     const statsStack = stack.addStack()
     statsStack.centerAlignContent();
     addTextWithSymbolStack({
-        stack: statsStack,
+        to: statsStack,
         symbol: "person.crop.circle",
         text: "€0,50",
         fontSize: 10,
-        color: Color.white()
+        textColor: Color.white(),
+        symbolColor: Color.white()
     })
-    addFlexSpacer({ stack: statsStack });
+    addFlexSpacer({ to: statsStack });
     addTextWithSymbolStack({
-        stack: statsStack,
+        to: statsStack,
         symbol: "network",
         text: "€11K",
         fontSize: 10,
-        color: Color.white()
+        textColor: Color.white(),
+        symbolColor: Color.white()
     })
     statsStack.backgroundColor = new Color(Color.darkGray().hex, 0.8)
     statsStack.setPadding(4, 4, 4, 4)
