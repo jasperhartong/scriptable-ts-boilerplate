@@ -38,7 +38,9 @@ The only way data is shared between the two is through the compilation process o
 Start with creating a new widgetModule in `./widgets/code/widget-module` that complies to the following convention:
 
 ```js camelCasedNameEndingOnWidgetModule.ts
-const widgetModule: WidgetModule = {
+import { IWidgetModule } from "code/utils/interfaces";
+
+const widgetModule: IWidgetModule = {
     createWidget: async (params) => {
         let widget = new ListWidget()
         // await data
