@@ -35,28 +35,23 @@ The only way data is shared between the two is through the compilation process o
 
 ## Writing and compiling a new widget
 
-Start with creating a new widgetModule in `./widgets/code` that complies to the following convention:
+Start with creating a new widgetModule in `./widgets/code/widget-module` that complies to the following convention:
 
-```js camelCasedName.ts
-const createWidget = async (widgetParamater: string) => {
-    let widget = new ListWidget()
-    // await data
-    // create the widget
-    return widget
-}
-
+```js camelCasedNameEndingOnWidgetModule.ts
 const widgetModule: WidgetModule = {
     createWidget: async (params) => {
-        return createWidget(params.widgetParameter)
+        let widget = new ListWidget()
+        // await data
+        // do something with `params.widgetParameter`
+        // create the widget
+        return widget
     }
 }
 
 module.exports = widgetModule;
 ```
 
-Add the filename `camelCasedName` to the roll-up config. _Should not be necessary later in future_ 
-
-Compile your widget by running either `yarn build` or `yarn watch` in `./widgets`.
+Compile your widget by running either `yarn build` or `yarn watch` in `./widgets` (any file ending with `WidgetModule.ts` will automatically be picked up).
 
 Read the awesome [official Scriptable Documentation](https://docs.scriptable.app).
 
@@ -73,7 +68,7 @@ The demo page is also available on `YOUR_LOCAL_DNS_NAME:3000` (without your widg
 Paste a compiled `WidgetLoader` (can be found in `./scriptable-api/public/compiled-widgets/widgetLoader.js`, or on the demo site) into Scriptable with the following `argsConfig` and press play.
 ```
 const argsConfig = {
-        fileName: "camelCasedName",
+        fileName: "camelCasedNameEndingOnWidgetModule",
         rootUrl: "http://macbook-pro.local:3000/compiled-widgets/widget-modules/",
         widgetParameter: ""
     };

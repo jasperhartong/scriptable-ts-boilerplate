@@ -71,7 +71,7 @@ const setWidgetModule = (widgetLoader: string, rootUrl: string, widgetModule?: W
   }
   let filled = widgetLoader;
   const { moduleName, meta } = widgetModule;
-  const args = { moduleName, ...meta.loaderArgs, rootUrl: rootUrl, widgetParameter: widgetParameter };
+  const args = { moduleName, ...meta.loaderArgs, rootUrl: rootUrl, defaultWidgetParameter: widgetParameter };
 
   for (let arg of Object.keys(args)) {
     const reg = new RegExp(`__${arg}__`, "gim")

@@ -1,10 +1,13 @@
-import { getOrCreateWidgetModule, logToWidget, WidgetModule, widgetModuleDownloadConfig } from "./utils";
+import { logToWidget } from "./utils/debug-utils";
+import { IWidgetModule } from "./utils/interfaces";
+import { getOrCreateWidgetModule, widgetModuleDownloadConfig } from "./utils/widget-loader-utils";
+
 const DEBUG = false;
 const FORCE_DOWNLOAD = false;
 const VERSION = "0.2";
 
 const widgetModulePath = await getOrCreateWidgetModule(widgetModuleDownloadConfig, FORCE_DOWNLOAD)
-const widgetModule: WidgetModule = importModule(widgetModulePath)
+const widgetModule: IWidgetModule = importModule(widgetModulePath)
 const widget = await widgetModule.createWidget({
     widgetParameter: args.widgetParameter || widgetModuleDownloadConfig.defaultWidgetParameter,
     debug: DEBUG

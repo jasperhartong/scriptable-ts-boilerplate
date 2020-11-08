@@ -1,6 +1,6 @@
 (function () {
 
-    function createTextWidget(pretitle, title, subtitle, color) {
+    const SimpleTextWidget = (pretitle, title, subtitle, color) => {
         let w = new ListWidget();
         w.backgroundColor = new Color(color, 1);
         let preTxt = w.addText(pretitle);
@@ -23,20 +23,21 @@
         a.textOpacity = 0.8;
         a.font = Font.systemFont(12);
         return w;
-    }
-    function createErrorWidget(subtitle) {
-        return createTextWidget("ERROR", "Widget Error", subtitle, "#000");
-    }
+    };
+
+    const ErrorWidget = (subtitle) => {
+        return SimpleTextWidget("ERROR", "Widget Error", subtitle, "#000");
+    };
 
     // Based on https://gist.github.com/planecore/e7b4c1e5db2dd28b1a023860e831355e
     const createWidget = async (country) => {
         if (!country) {
-            createErrorWidget("No country");
+            return ErrorWidget("No country");
         }
         const url = `https://coronavirus-19-api.herokuapp.com/countries/${country}`;
         const req = new Request(url);
         const res = await req.loadJSON();
-        return createTextWidget("Coronavirus", `${res.todayCases} Today`, `${res.cases} Total`, "#53d769");
+        return SimpleTextWidget("Coronavirus", `${res.todayCases} Today`, `${res.cases} Total`, "#53d769");
     };
     const widgetModule = {
         createWidget: async (params) => {
