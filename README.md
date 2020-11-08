@@ -68,7 +68,7 @@ The demo page is also available on `YOUR_LOCAL_DNS_NAME:3000` (without your widg
 ## Loading the widget on your device for the first time
 
 Paste a compiled `WidgetLoader` (can be found in `./scriptable-api/public/compiled-widgets/widgetLoader.js`, or on the demo site) into Scriptable with the following `argsConfig` and press play.
-```
+```js
 const argsConfig = {
     fileName: "camelCasedNameEndingOnWidgetModule",
     rootUrl: "http://macbook-pro.local:3000/compiled-widgets/widget-modules/",
@@ -98,12 +98,12 @@ Deployment to Vercel is easiest for the Nextjs app:
 
 ## Updating widgets
 
-If people installed widgets with the `WidgetLoader` pointing to your deployed instance, simply pushing code to the `main` branch would already let them have update code again.
+If people installed widgets with the `WidgetLoader` pointing to your deployed instance, simply pushing code to the `main` branch would already let them have the updated code again on next refresh of their device.
 
 
 # Credits
 
-- The [Scriptable App](https://scriptable.app/)] of course
+- The [Scriptable App](https://scriptable.app/) of course
 - The idea of bootstrapping widgets: https://gitlab.com/sillium-scriptable-projects/universal-scriptable-widget
 - The Sticky example https://github.com/drewkerr/scriptable/blob/main/Sticky%20widget.js
 - The Covid19 example: https://gist.github.com/planecore/e7b4c1e5db2dd28b1a023860e831355e
