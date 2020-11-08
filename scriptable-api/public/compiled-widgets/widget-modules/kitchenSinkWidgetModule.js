@@ -63,7 +63,7 @@
         addTextWithSymbolStack({
             stack: statsStack,
             symbol: "network",
-            text: "€11.042,50",
+            text: "€11K",
             fontSize: 10,
             color: Color.white()
         });
