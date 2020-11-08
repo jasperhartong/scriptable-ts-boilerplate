@@ -1,31 +1,23 @@
-import { argsConfig, downloadWidgetModule, WidgetModule } from "./utils";
+import { getOrCreateWidgetModule, logToWidget, WidgetModule, widgetModuleDownloadConfig } from "./utils";
 const DEBUG = false;
-const VERSION = "0.1";
+const FORCE_DOWNLOAD = false;
+const VERSION = "0.2";
 
-downloadWidgetModule(argsConfig)
-    .then(async widgetModulePath => {
-        // import downloaded widgetModule
-        const widgetModule: WidgetModule = importModule(widgetModulePath)
-        // create the widget
-        const params = {
-            widgetParameter: args.widgetParameter || argsConfig.widgetParameter,
-            debug: DEBUG
-        }
-        const widget = await widgetModule.createWidget(params)
+const widgetModulePath = await getOrCreateWidgetModule(widgetModuleDownloadConfig, FORCE_DOWNLOAD)
+const widgetModule: WidgetModule = importModule(widgetModulePath)
+const widget = await widgetModule.createWidget({
+    widgetParameter: args.widgetParameter || widgetModuleDownloadConfig.defaultWidgetParameter,
+    debug: DEBUG
+});
 
-        // preview the widget
-        if (!config.runsInWidget) {
-            await widget.presentSmall()
-        }
+if (DEBUG) {
+    logToWidget(widget, args.widgetParameter)
+}
 
-        Script.setWidget(widget)
-        Script.complete()
-    }).catch(error => {
-        console.error(error);
-    })
+// preview the widget if in app
+if (!config.runsInWidget) {
+    await widget.presentSmall()
+}
 
-
-
-
-
-
+Script.setWidget(widget)
+Script.complete()

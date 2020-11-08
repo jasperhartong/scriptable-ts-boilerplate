@@ -1,6 +1,6 @@
 export interface WidgetModule {
     rawScript: string;
-    fileName: string;
+    moduleName: string;
     imageSrc: string;
     meta: {
         name: string;

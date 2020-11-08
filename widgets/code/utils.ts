@@ -6,17 +6,17 @@ export interface WidgetModule {
     createWidget: (params: WidgetModuleParams) => Promise<ListWidget>;
 }
 
-interface DownloadWidgetModuleArgs {
-    fileName: string;
+interface WidgetModuleDownloadConfig {
+    moduleName: string;
     rootUrl: string;
-    widgetParameter: string;
+    defaultWidgetParameter: string;
     downloadQueryString: string;
 }
 
-export const argsConfig: DownloadWidgetModuleArgs = {
-    fileName: "__fileName__",
+export const widgetModuleDownloadConfig: WidgetModuleDownloadConfig = {
+    moduleName: "__moduleName__",
     rootUrl: "__rootUrl__",
-    widgetParameter: "__widgetParameter__",
+    defaultWidgetParameter: "__defaultWidgetParameter__",
     downloadQueryString: "__downloadQueryString__",
 }
 
@@ -47,6 +47,13 @@ function createTextWidget(pretitle: string, title: string, subtitle: string, col
     return w
 }
 
+export const logToWidget = (widget: ListWidget, message: string) => {
+    console.log(message)
+    let a = widget.addText(message)
+    a.textColor = Color.red()
+    a.textOpacity = 0.8
+    a.font = Font.systemFont(10)
+}
 
 function createErrorWidget(subtitle: string) {
     return createTextWidget("ERROR", "Widget Error", subtitle, "#000")
@@ -79,18 +86,22 @@ const enforceDir = (fm: FileManager, path: string) => {
     }
 }
 
-async function downloadWidgetModule({ fileName, rootUrl, downloadQueryString }: DownloadWidgetModuleArgs, forceDownload = false) {
-    const fm = FileManager.local()
-    // const scriptPath = module.filename
+const ROOT_MODULE_PATH = "widget-loader";
 
-    const widgetLoaderDir = fm.joinPath(fm.libraryDirectory(), "widget-loader")
+async function getOrCreateWidgetModule(
+    { moduleName, rootUrl, downloadQueryString }: WidgetModuleDownloadConfig,
+    forceDownload = false
+) {
+    const fm = FileManager.local()
+
+    const widgetLoaderDir = fm.joinPath(fm.libraryDirectory(), ROOT_MODULE_PATH)
     enforceDir(fm, widgetLoaderDir);
 
-    const widgetModuleDir = fm.joinPath(widgetLoaderDir, fileName)
+    const widgetModuleDir = fm.joinPath(widgetLoaderDir, moduleName)
     enforceDir(fm, widgetModuleDir);
 
-    const widgetModuleFilename = fileName + '.js'
-    const widgetModuleEtag = fileName + '.etag'
+    const widgetModuleFilename = `${moduleName}.js`
+    const widgetModuleEtag = `${moduleName}.etag`
     const widgetModulePath = fm.joinPath(widgetModuleDir, widgetModuleFilename)
     const widgetModuleEtagPath = fm.joinPath(widgetModuleDir, widgetModuleEtag)
     const widgetModuleDownloadUrl = rootUrl + widgetModuleFilename + (downloadQueryString.startsWith("?") ? downloadQueryString : "")
@@ -130,6 +141,6 @@ const getResponseHeader = (request: Request, header: string) => {
 }
 
 
-export { createTextWidget, createErrorWidget, handleError, downloadWidgetModule }
+export { createTextWidget, createErrorWidget, handleError, getOrCreateWidgetModule }
 
 
