@@ -237,7 +237,11 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
 
 export const getStaticProps: GetStaticProps<{}, {}> = async ({ params }) => {
   const widgetLoaderPath = resolve('./public/compiled-widgets/widgetLoader.js');
-  const widgetModuleModuleNames = ["stickyWidgetModule", "covid19WidgetModule"]
+  const widgetModuleModuleNames = [
+    "stickyWidgetModule",
+    "covid19WidgetModule",
+    "kitchenSinkWidgetModule"
+  ]
   const props: PageProps = {
     widgetLoader: readFileSync(widgetLoaderPath).toString("utf-8"),
     widgetModules: widgetModuleModuleNames.map(moduleName => {

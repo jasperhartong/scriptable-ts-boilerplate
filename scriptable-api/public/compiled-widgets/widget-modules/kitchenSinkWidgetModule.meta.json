@@ -1,0 +1,10 @@
+{
+    "name": "Kitchen Sink",
+    "description": "Demoing included components",
+    "paramLabel": "No parameter",
+    "paramPlaceHolder": "Nothing required",
+    "loaderArgs": {
+        "iconColor": "deep-green",
+        "iconGlyph": "user-md"
+    }
+}
