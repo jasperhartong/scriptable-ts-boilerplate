@@ -1,4 +1,4 @@
-import { addFlexSpacer } from "../stacks/addFlexSpacer"
+import { addFlexSpacer } from "code/components/stacks/addFlexSpacer"
 
 export const SimpleTextWidget = (pretitle: string, title: string, subtitle: string, color: string) => {
     let w = new ListWidget()

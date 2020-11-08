@@ -1,6 +1,6 @@
-import { logToWidget } from "./utils/debug-utils";
-import { IWidgetModule } from "./utils/interfaces";
-import { getOrCreateWidgetModule, widgetModuleDownloadConfig } from "./utils/widget-loader-utils";
+import { logToWidget } from "code/utils/debug-utils";
+import { IWidgetModule } from "code/utils/interfaces";
+import { getOrCreateWidgetModule, widgetModuleDownloadConfig } from "code/utils/widget-loader-utils";
 
 const DEBUG = false;
 const FORCE_DOWNLOAD = false;

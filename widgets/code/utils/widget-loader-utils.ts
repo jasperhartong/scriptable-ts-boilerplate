@@ -1,4 +1,4 @@
-import { IWidgetModuleDownloadConfig } from "./interfaces";
+import { IWidgetModuleDownloadConfig } from "code/utils/interfaces";
 
 const ROOT_MODULE_PATH = "widget-loader";
 

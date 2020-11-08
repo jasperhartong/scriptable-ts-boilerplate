@@ -1,4 +1,4 @@
-import { ErrorImage } from "./ErrorImage";
+import { ErrorImage } from "code/components/images/ErrorImage";
 
 interface Props {
     id?: string;

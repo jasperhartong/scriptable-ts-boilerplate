@@ -1,7 +1,6 @@
 import { DefaultColor } from "code/utils/color";
 import { getWidgetSizeInPoint } from "code/utils/sizing";
 
-
 interface Props {
     series: number[],
     width?: number,

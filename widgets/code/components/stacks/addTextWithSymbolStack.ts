@@ -1,5 +1,5 @@
+import { addSymbol } from "code/components/stacks/addSymbol"
 import { DefaultColor } from "code/utils/color"
-import { addSymbol } from "./addSymbol"
 
 interface Props {
     to: ListWidget | WidgetStack;
