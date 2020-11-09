@@ -17,6 +17,6 @@
     "typescript": "^4.0.5"
   },
   "dependencies": {
-    "@types/scriptable-ios": "^1.5.0"
+    "@types/scriptable-ios": "^1.6.0"
   }
 }
