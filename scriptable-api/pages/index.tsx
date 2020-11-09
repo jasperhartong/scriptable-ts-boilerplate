@@ -24,8 +24,7 @@ interface PageProps {
 const useStyles = makeStyles(theme => ({
   header: {
     background: theme.palette.primary.main,
-    color: "white",
-    marginBottom: theme.spacing(4)
+    color: "white"
   },
   headerText: {
     paddingTop: theme.spacing(6),
@@ -117,10 +116,11 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
           <Grid container alignItems="flex-end">
             <Grid item xs={12} sm={6}>
               <div className={classes.headerText}>
-                <Typography component="h3" variant="h3" gutterBottom color="inherit">Scriptable TS Boilerplate</Typography>
-                <Typography variant="h5" style={{ opacity: 0.6 }} gutterBottom >
-                  Makes creating iOS widgets with the <a style={{ color: "inherit" }} href="https://scriptable.app">Scriptable App</a> even more fun!
+                <Typography component="h4" variant="h4" gutterBottom color="inherit">Scriptable TS Boilerplate</Typography>
+                <Typography variant="body1" style={{ opacity: 0.6 }} gutterBottom >
+                  A boilerplate for creating remote-updatable <Link color="inherit" underline="always" href="https://scriptable.app">Scriptable</Link> widgets. Includes setup, components, utils and examples to develop in the comfort of <Link color="inherit" underline="always" href="https://www.typescriptlang.org">TypeScript</Link>.
               </Typography>
+                <Typography variant="body1" gutterBottom ></Typography>
                 <div style={{ marginTop: 32 }}>
                   <Link variant="body1" underline="always" color="inherit" href="https://github.com/jasperhartong/scriptable-ts-boilerplate">Github repo →</Link>
                 </div>
