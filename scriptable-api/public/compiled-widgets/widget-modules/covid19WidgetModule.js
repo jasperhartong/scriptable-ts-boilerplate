@@ -35,7 +35,6 @@
 
     const RequestWithTimeout = (url, timeoutSeconds = 5) => {
         const request = new Request(url);
-        // @ts-ignore
         request.timeoutInterval = timeoutSeconds;
         return request;
     };

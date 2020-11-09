@@ -1,8 +1,6 @@
 (function () {
 
-    const DynamicColor = ({ lightColor, darkColor }) => 
-    // @ts-ignore
-    Color.dynamic(lightColor, darkColor);
+    const DynamicColor = ({ lightColor, darkColor }) => Color.dynamic(lightColor, darkColor);
     const DefaultColor = () => DynamicColor({ lightColor: Color.white(), darkColor: Color.black() });
 
     // From https://talk.automators.fm/t/get-available-widget-height-and-width-depending-on-the-devices-screensize/9258/4
@@ -85,7 +83,6 @@
 
     const RequestWithTimeout = (url, timeoutSeconds = 5) => {
         const request = new Request(url);
-        // @ts-ignore
         request.timeoutInterval = timeoutSeconds;
         return request;
     };
