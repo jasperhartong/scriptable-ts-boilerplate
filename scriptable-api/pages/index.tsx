@@ -1,4 +1,4 @@
-import { Button, Container, Link, makeStyles, Paper, TextField, Typography } from "@material-ui/core"
+import { Button, Container, Grid, Link, makeStyles, Paper, TextField, Typography } from "@material-ui/core"
 import LaunchIcon from '@material-ui/icons/Launch'
 import { Alert, AlertTitle } from "@material-ui/lab"
 import { readFileSync } from "fs"
@@ -25,9 +25,19 @@ const useStyles = makeStyles(theme => ({
   header: {
     background: theme.palette.primary.main,
     color: "white",
-    paddingTop: theme.spacing(6),
-    paddingBottom: theme.spacing(4),
     marginBottom: theme.spacing(4)
+  },
+  headerText: {
+    paddingTop: theme.spacing(6),
+    paddingBottom: theme.spacing(6),
+  },
+  heroImage: {
+    backgroundImage: "url(/scriptable-hero.png)",
+    backgroundSize: "cover",
+    width: "84%",
+    paddingBottom: "91%",
+    marginLeft: "8%",
+    ["image-rendering"]: "crisp-edges"
   },
   alert: {
     marginTop: theme.spacing(4),
@@ -106,21 +116,22 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
       </Head>
       <div className={classes.header}>
         <Container maxWidth="md">
-          <Typography component="h3" variant="h3" color="inherit">Scriptable TS Boilerplate</Typography>
-          <Typography variant="h5" style={{ opacity: 0.6 }} gutterBottom >
-            Makes creating iOS widgets with the <a style={{ color: "inherit" }} href="https://scriptable.app">Scriptable App</a> even more fun!
-          </Typography>
-
-          <Typography style={{ paddingTop: 16 }} variant="body1" gutterBottom component="div" >
-            <li style={{ listStyle: "none" }}>🔥 Hot-loading widgets served by Next.js</li>
-            <li style={{ listStyle: "none" }}>🔨 The safety of TypeScript</li>
-            <li style={{ listStyle: "none" }}>🍭 Build, compile, rollup and other configs</li>
-            <li style={{ listStyle: "none" }}>🚀 Deploy to Vercel with ease</li>
-            <li style={{ listStyle: "none" }}>✨ Roll out updates to live widgets automatically</li>
-          </Typography>
-          <div style={{ marginTop: 16, marginBottom: 16 }}>
-            <Link variant="body1" underline="always" color="inherit" href="https://github.com/jasperhartong/scriptable-ts-boilerplate">Github repo →</Link>
-          </div>
+          <Grid container alignItems="flex-end">
+            <Grid item xs={12} sm={6}>
+              <div className={classes.headerText}>
+                <Typography component="h3" variant="h3" gutterBottom color="inherit">Scriptable TS Boilerplate</Typography>
+                <Typography variant="h5" style={{ opacity: 0.6 }} gutterBottom >
+                  Makes creating iOS widgets with the <a style={{ color: "inherit" }} href="https://scriptable.app">Scriptable App</a> even more fun!
+              </Typography>
+                <div style={{ marginTop: 32 }}>
+                  <Link variant="body1" underline="always" color="inherit" href="https://github.com/jasperhartong/scriptable-ts-boilerplate">Github repo →</Link>
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <div className={classes.heroImage} title="🔥 Hot-loading widgets served by Next.js 🔨 The safety of TypeScript 🍭 Build, compile, rollup and other configs 🚀 Deploy to Vercel with ease ✨ Roll out updates to live widgets automatically" />
+            </Grid>
+          </Grid>
         </Container>
       </div>
 
