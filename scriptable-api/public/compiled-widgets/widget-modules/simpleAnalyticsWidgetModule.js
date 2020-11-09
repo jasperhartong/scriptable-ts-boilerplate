@@ -70,120 +70,37 @@
         return image;
     };
 
-    const ErrorImage = ({ error, width, height }) => {
-        const text = `Image Error: \n ${(error === null || error === void 0 ? void 0 : error.message) || error}`;
-        const dc = new DrawContext();
-        dc.size = new Size(width || 200, height || 200);
-        dc.respectScreenScale = true;
-        dc.opaque = false;
-        dc.setTextColor(Color.red());
-        dc.setFont(Font.semiboldSystemFont(dc.size.width / 10));
-        dc.drawText(text, new Point(dc.size.width / 10, 8));
-        return dc.getImage();
-    };
-
     const RequestWithTimeout = (url, timeoutSeconds = 5) => {
         const request = new Request(url);
         request.timeoutInterval = timeoutSeconds;
         return request;
     };
 
-    const UnsplashImage = async ({ id = "random", width = 600, height = 600 }) => {
-        const req = RequestWithTimeout(`https://source.unsplash.com/${id}/${width}x${height}`);
-        try {
-            return await req.loadImage();
-        }
-        catch (error) {
-            return ErrorImage({ width, height, error });
-        }
-    };
-
-    const addFlexSpacer = ({ to }) => {
-        // @ts-ignore
-        to.addSpacer(null);
-    };
-
-    const addSymbol = ({ to, symbol = 'applelogo', color = DefaultColor(), size = 20, }) => {
-        const _sym = SFSymbol.named(symbol);
-        const wImg = to.addImage(_sym.image);
-        wImg.tintColor = color;
-        wImg.imageSize = new Size(size, size);
-    };
-
-    const addTextWithSymbolStack = ({ to, text, symbol, textColor = DefaultColor(), symbolColor = DefaultColor(), fontSize = 20, }) => {
-        const _stack = to.addStack();
-        _stack.centerAlignContent();
-        addSymbol({
-            to: _stack,
-            symbol,
-            size: fontSize,
-            color: symbolColor
-        });
-        _stack.addSpacer(3);
-        let _text = _stack.addText(text);
-        _text.textColor = textColor;
-        _text.font = Font.systemFont(fontSize);
-        return _stack;
-    };
-
     const widgetModule = {
         createWidget: async (params) => {
             const widget = new ListWidget();
-            widget.setPadding(8, 0, 0, 0);
-            widget.backgroundImage = await UnsplashImage({ id: "KuF8-6EbBMs", width: 500, height: 500 });
-            const mainStack = widget.addStack();
-            mainStack.layoutVertically();
-            addFlexSpacer({ to: mainStack });
-            // Start Content
-            const contentStack = mainStack.addStack();
-            contentStack.layoutVertically();
-            contentStack.setPadding(0, 16, 0, 16);
-            contentStack.addImage(SparkBarImage({
-                series: [800000, 780000, 760000, 738000, 680000, 650000, 600000, 554600, 500000, 438000],
-                width: 400,
-                height: 100,
-                color: new Color(Color.white().hex, 0.6),
-                lastBarColor: Color.orange()
+            const website = params.widgetParameter || `scriptable-ts-boilerplate.vercel.app`;
+            const data = await requestSimpleAnalyticsData(website);
+            // TODO: render something if no website is found
+            widget.backgroundColor = Color.lightGray();
+            widget.addImage(SparkBarImage({
+                series: data.visits.map(visit => visit.pageviews)
             }));
-            contentStack.addSpacer(8);
-            let title = contentStack.addText("438.000 cases");
-            title.textColor = Color.orange();
-            title.font = Font.semiboldSystemFont(14);
-            contentStack.addSpacer(2);
-            let _text = contentStack.addText("A 50% decrease in the last 10 years");
-            _text.textColor = Color.white();
-            _text.font = Font.systemFont(12);
-            // End Content
-            addFlexSpacer({ to: mainStack });
-            // Footer
-            addStatsStack({ stack: mainStack });
+            // create the widget
             return widget;
         }
     };
-    const addStatsStack = ({ stack }) => {
-        const statsStack = stack.addStack();
-        statsStack.centerAlignContent();
-        statsStack.backgroundColor = new Color(Color.black().hex, 0.85);
-        statsStack.setPadding(6, 16, 6, 16);
-        addTextWithSymbolStack({
-            to: statsStack,
-            symbol: "person.crop.circle",
-            text: "0,50",
-            fontSize: 10,
-            textColor: Color.lightGray(),
-            symbolColor: Color.lightGray()
-        });
-        addFlexSpacer({ to: statsStack });
-        addTextWithSymbolStack({
-            to: statsStack,
-            symbol: "network",
-            text: "11K",
-            fontSize: 10,
-            textColor: Color.lightGray(),
-            symbolColor: Color.lightGray()
-        });
-        return statsStack;
-    };
     module.exports = widgetModule;
+    // helpers
+    const formatDateQueryParam = (date) => date.toISOString().split('T')[0];
+    const requestSimpleAnalyticsData = async (website) => {
+        const today = new Date();
+        const sevenDaysAgo = new Date(new Date().setDate(today.getDate() - 6));
+        const url = `https://simpleanalytics.com/${website}.json?version=2&start=${formatDateQueryParam(sevenDaysAgo)}&end=${formatDateQueryParam(today)}`;
+        const req = RequestWithTimeout(url);
+        // TODO: check if error result
+        const data = (await req.loadJSON());
+        return data;
+    };
 
 }());
