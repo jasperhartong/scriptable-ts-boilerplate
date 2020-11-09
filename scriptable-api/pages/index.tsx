@@ -34,10 +34,8 @@ const useStyles = makeStyles(theme => ({
   heroImage: {
     backgroundImage: "url(/scriptable-hero.png)",
     backgroundSize: "cover",
-    width: "84%",
-    paddingBottom: "91%",
-    marginLeft: "8%",
-    ["image-rendering"]: "crisp-edges"
+    width: "100%",
+    paddingBottom: "109%",
   },
   alert: {
     marginTop: theme.spacing(4),
