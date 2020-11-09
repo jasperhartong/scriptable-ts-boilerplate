@@ -1,4 +1,5 @@
 import { SparkBarImage } from "code/components/images/SparkBarImage";
+import { addFlexSpacer } from "code/components/stacks/addFlexSpacer";
 import { IWidgetModule } from "code/utils/interfaces";
 import { RequestWithTimeout } from "code/utils/request-utils";
 
@@ -6,14 +7,58 @@ import { RequestWithTimeout } from "code/utils/request-utils";
 const widgetModule: IWidgetModule = {
     createWidget: async (params) => {
         const widget = new ListWidget()
-        const website = params.widgetParameter || `scriptable-ts-boilerplate.vercel.app`
+        // Ensure there's always a site set
+        const website = params.widgetParameter || `simpleanalytics.com`
         const data = await requestSimpleAnalyticsData(website)
         // TODO: render something if no website is found
+        const highlightColor = new Color("#b93545", 1.0)
+        const textColor = new Color("#a4bdc0", 1.0)
+        const backgroundColor = new Color("#20292a", 1)
+        const graphColor = new Color("#198c9f", 1)
+        const pageViewsToday = data.visits[data.visits.length - 1]?.pageviews || 0
+        const pageViewsYesterday = data.visits[data.visits.length - 2]?.pageviews || 0
+        const pageViewsChange = pageViewsToday - pageViewsYesterday
 
-        widget.backgroundColor = Color.lightGray()
-        widget.addImage(SparkBarImage({
-            series: data.visits.map(visit => visit.pageviews)
+
+        // General widget config
+        widget.backgroundColor = backgroundColor
+
+        // Header
+        const headerTxt = widget.addText(website)
+        headerTxt.textColor = textColor
+        headerTxt.font = Font.systemFont(10)
+
+        // Vertical Space
+        addFlexSpacer({ to: widget })
+
+        // BarChart (centered)
+        const barStack = widget.addStack();
+        barStack.layoutHorizontally()
+        addFlexSpacer({ to: barStack })
+        barStack.addImage(SparkBarImage({
+            series: data.visits.map(visit => visit.pageviews),
+            color: graphColor,
+            lastBarColor: highlightColor,
+            height: 100,
+            width: 400
         }))
+        addFlexSpacer({ to: barStack })
+
+        // Vertical Space
+        widget.addSpacer(10)
+
+        // Title: Today
+        const titleTxt = widget.addText(`${pageViewsToday} today`)
+        titleTxt.textColor = highlightColor
+        titleTxt.font = Font.boldSystemFont(16)
+
+        // Vertical space
+        widget.addSpacer(2)
+
+        // Description: Change since yesterday
+        const descriptionText = widget.addText(`${pageViewsChange >= 0 ? "+" : ""}${pageViewsChange} page views`)
+        descriptionText.textColor = textColor
+        descriptionText.font = Font.systemFont(12)
 
         // create the widget
         return widget
