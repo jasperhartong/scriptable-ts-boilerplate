@@ -27,8 +27,9 @@ export const SparkBarImage = (
     const barColor = color
     const barWidth = (dc.size.width) / series.length - 4
     const maxValue = Math.max(...series);
+    // Calculate the rendered height of the bars, make sure they're at least 1 pixel
     const pixelMultiplier = dc.size.height / maxValue;
-    const pixelValues = series.map(v => v * pixelMultiplier);
+    const pixelValues = series.map(v => Math.max(v * pixelMultiplier, 1));
 
     // Draw the bars
     pixelValues.forEach((v, i) => {
