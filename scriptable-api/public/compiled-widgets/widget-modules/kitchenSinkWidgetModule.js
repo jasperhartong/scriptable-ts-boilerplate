@@ -100,7 +100,7 @@
 
     const addFlexSpacer = ({ to }) => {
         // @ts-ignore
-        to.addSpacer(null);
+        to.addSpacer();
     };
 
     const addSymbol = ({ to, symbol = 'applelogo', color = DefaultColor(), size = 20, }) => {

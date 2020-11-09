@@ -4,5 +4,5 @@ interface Props {
 
 export const addFlexSpacer = ({ to }: Props) => {
     // @ts-ignore
-    to.addSpacer(null);
+    to.addSpacer();
 }
