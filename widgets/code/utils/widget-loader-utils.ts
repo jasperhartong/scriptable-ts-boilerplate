@@ -37,7 +37,7 @@ async function getOrCreateWidgetModule(
             headerReq.method = "HEAD";
             await headerReq.load()
             const etag = getResponseHeader(headerReq, "Etag");
-            if (lastEtag === etag) {
+            if (lastEtag && etag && lastEtag === etag) {
                 console.log(`ETag is same, return cached file for ${widgetModuleDownloadUrl}`)
                 return widgetModulePath;
             }
