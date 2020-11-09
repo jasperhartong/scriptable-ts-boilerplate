@@ -33,13 +33,20 @@
         return SimpleTextWidget("ERROR", "Widget Error", subtitle, "#000");
     };
 
+    const RequestWithTimeout = (url, timeoutSeconds = 5) => {
+        const request = new Request(url);
+        // @ts-ignore
+        request.timeoutInterval = timeoutSeconds;
+        return request;
+    };
+
     // Based on https://gist.github.com/planecore/e7b4c1e5db2dd28b1a023860e831355e
     const createWidget = async (country) => {
         if (!country) {
             return ErrorWidget("No country");
         }
         const url = `https://coronavirus-19-api.herokuapp.com/countries/${country}`;
-        const req = new Request(url);
+        const req = RequestWithTimeout(url);
         const res = await req.loadJSON();
         return SimpleTextWidget("Coronavirus", `${res.todayCases} Today`, `${res.cases} Total`, "#53d769");
     };

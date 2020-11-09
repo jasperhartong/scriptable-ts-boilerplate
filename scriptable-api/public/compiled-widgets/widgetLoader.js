@@ -3,6 +3,13 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: __iconColor__; icon-glyph: __iconGlyph__;
 
+const RequestWithTimeout = (url, timeoutSeconds = 5) => {
+    const request = new Request(url);
+    // @ts-ignore
+    request.timeoutInterval = timeoutSeconds;
+    return request;
+};
+
 const ROOT_MODULE_PATH = "widget-loader";
 const widgetModuleDownloadConfig = {
     moduleName: "__moduleName__",
@@ -25,7 +32,7 @@ async function getOrCreateWidgetModule({ moduleName, rootUrl, downloadQueryStrin
         // Check if an etag was saved for this file
         if (fm.fileExists(widgetModuleEtagPath) && !forceDownload) {
             const lastEtag = fm.readString(widgetModuleEtagPath);
-            const headerReq = new Request(widgetModuleDownloadUrl);
+            const headerReq = RequestWithTimeout(widgetModuleDownloadUrl);
             headerReq.method = "HEAD";
             await headerReq.load();
             const etag = getResponseHeader(headerReq, "Etag");
@@ -35,7 +42,7 @@ async function getOrCreateWidgetModule({ moduleName, rootUrl, downloadQueryStrin
             }
         }
         console.log("Downloading library file '" + widgetModuleDownloadUrl + "' to '" + widgetModulePath + "'");
-        const req = new Request(widgetModuleDownloadUrl);
+        const req = RequestWithTimeout(widgetModuleDownloadUrl);
         const libraryFile = await req.load();
         const etag = getResponseHeader(req, "Etag");
         if (etag) {

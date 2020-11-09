@@ -1,4 +1,5 @@
 import { ErrorImage } from "code/components/images/ErrorImage";
+import { RequestWithTimeout } from "code/utils/request-utils";
 
 interface Props {
     id?: string;
@@ -13,7 +14,7 @@ export const UnsplashImage = async (
         height = 600
     }: Props
 ) => {
-    const req = new Request(`https://source.unsplash.com/${id}/${width}x${height}`)
+    const req = RequestWithTimeout(`https://source.unsplash.com/${id}/${width}x${height}`)
     try {
         return await req.loadImage();
     } catch (error) {

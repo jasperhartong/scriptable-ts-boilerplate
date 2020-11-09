@@ -1,4 +1,5 @@
 import { IWidgetModuleDownloadConfig } from "code/utils/interfaces";
+import { RequestWithTimeout } from "./request-utils";
 
 const ROOT_MODULE_PATH = "widget-loader";
 
@@ -32,7 +33,7 @@ async function getOrCreateWidgetModule(
         // Check if an etag was saved for this file
         if (fm.fileExists(widgetModuleEtagPath) && !forceDownload) {
             const lastEtag = fm.readString(widgetModuleEtagPath)
-            const headerReq = new Request(widgetModuleDownloadUrl);
+            const headerReq = RequestWithTimeout(widgetModuleDownloadUrl);
             headerReq.method = "HEAD";
             await headerReq.load()
             const etag = getResponseHeader(headerReq, "Etag");
@@ -43,7 +44,7 @@ async function getOrCreateWidgetModule(
         }
 
         console.log("Downloading library file '" + widgetModuleDownloadUrl + "' to '" + widgetModulePath + "'")
-        const req = new Request(widgetModuleDownloadUrl)
+        const req = RequestWithTimeout(widgetModuleDownloadUrl)
         const libraryFile = await req.load()
         const etag = getResponseHeader(req, "Etag");
         if (etag) {

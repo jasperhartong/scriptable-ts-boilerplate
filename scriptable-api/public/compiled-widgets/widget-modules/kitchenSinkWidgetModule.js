@@ -83,8 +83,15 @@
         return dc.getImage();
     };
 
+    const RequestWithTimeout = (url, timeoutSeconds = 5) => {
+        const request = new Request(url);
+        // @ts-ignore
+        request.timeoutInterval = timeoutSeconds;
+        return request;
+    };
+
     const UnsplashImage = async ({ id = "random", width = 600, height = 600 }) => {
-        const req = new Request(`https://source.unsplash.com/${id}/${width}x${height}`);
+        const req = RequestWithTimeout(`https://source.unsplash.com/${id}/${width}x${height}`);
         try {
             return await req.loadImage();
         }

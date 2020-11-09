@@ -3,15 +3,14 @@
 import { ErrorWidget } from "code/components/widgets/ErrorWidget"
 import { SimpleTextWidget } from "code/components/widgets/SimpleTextWidget"
 import { IWidgetModule } from "code/utils/interfaces"
-
-
+import { RequestWithTimeout } from "code/utils/request-utils"
 
 const createWidget = async (country?: string) => {
     if (!country) {
         return ErrorWidget("No country")
     }
     const url = `https://coronavirus-19-api.herokuapp.com/countries/${country}`
-    const req = new Request(url)
+    const req = RequestWithTimeout(url)
     const res = await req.loadJSON()
     return SimpleTextWidget("Coronavirus", `${res.todayCases} Today`, `${res.cases} Total`, "#53d769")
 }
