@@ -23,7 +23,7 @@ const widgetModule: IWidgetModule = {
             const pageViewsToday = data.visits[data.visits.length - 1]?.pageviews || 0
             series = data.visits.map(visit => visit.pageviews)
             titleText = `${pageViewsToday} views`
-            descriptionText = `${data.pageviews} last month`
+            descriptionText = `${data.pageviews} this month`
         }
 
         return SimpleSparkBarWidget({
@@ -43,7 +43,7 @@ module.exports = widgetModule;
 // SimpleAnalytics helpers
 const parseWidgetParameter = (param: string) => {
     // handles: <apiKey>@<website> || @<website> || <website>
-    const paramParts = param.split("@")
+    const paramParts = param.toLowerCase().replace(/ /g, "").split("@")
     let apiKey: string = "";
     let website: string = "";
 
