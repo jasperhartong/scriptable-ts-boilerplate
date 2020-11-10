@@ -1,86 +1,46 @@
-import { SparkBarImage } from "code/components/images/SparkBarImage";
-import { addFlexSpacer } from "code/components/stacks/addFlexSpacer";
+import { SimpleSparkBarWidget } from "code/components/widgets/SimpleSparkBarWidget";
 import { IWidgetModule } from "code/utils/interfaces";
 import { RequestWithTimeout } from "code/utils/request-utils";
 
-
 const widgetModule: IWidgetModule = {
     createWidget: async (params) => {
-        const widget = new ListWidget()
         const { website, apiKey } = parseWidgetParameter(params.widgetParameter)
 
         // Styling
         const highlightColor = new Color("#b93545", 1.0)
         const textColor = new Color("#a4bdc0", 1.0)
         const backgroundColor = new Color("#20292a", 1)
-        const graphColor = new Color("#198c9f", 1)
+        const barColor = new Color("#198c9f", 1)
 
         // Fallback data
         let series: number[] = []
-        let title = "No data"
-        let description = "Check the parameter settings"
+        let titleText = "No data"
+        let descriptionText = "Check the parameter settings"
 
         // Load data
         const data = await requestSimpleAnalyticsData({ website, apiKey })
         if (data) {
             const pageViewsToday = data.visits[data.visits.length - 1]?.pageviews || 0
             series = data.visits.map(visit => visit.pageviews)
-            title = `${pageViewsToday} views`
-            description = `${data.pageviews} last month`
+            titleText = `${pageViewsToday} views`
+            descriptionText = `${data.pageviews} last month`
         }
 
-        // General widget config
-        widget.backgroundColor = backgroundColor
-
-        /* Widget Layout */
-
-        // Header
-        const headerTxt = widget.addText(website)
-        headerTxt.textColor = textColor
-        headerTxt.font = Font.systemFont(10)
-
-        // Vertical Space
-        addFlexSpacer({ to: widget })
-
-        // BarChart (centered)
-        const barStack = widget.addStack();
-        barStack.layoutHorizontally()
-        addFlexSpacer({ to: barStack })
-        if (series.length > 0) {
-            barStack.addImage(SparkBarImage({
-                series,
-                color: graphColor,
-                lastBarColor: highlightColor,
-                height: 100,
-                width: 400
-            }))
-        }
-        addFlexSpacer({ to: barStack })
-
-        // Vertical Space
-        widget.addSpacer(10)
-
-        // Title: Today
-        const titleTxt = widget.addText(title)
-        titleTxt.textColor = highlightColor
-        titleTxt.font = Font.boldSystemFont(16)
-
-        // Vertical space
-        widget.addSpacer(2)
-
-        // Description: Change since yesterday
-        const descriptionText = widget.addText(description)
-        descriptionText.textColor = textColor
-        descriptionText.font = Font.systemFont(12)
-
-        // create the widget
-        return widget
+        return SimpleSparkBarWidget({
+            series,
+            header: { text: website, color: textColor },
+            title: { text: titleText, color: highlightColor },
+            description: { text: descriptionText, color: textColor },
+            backgroundColor,
+            barColor,
+            lastBarColor: highlightColor,
+        })
     }
 }
 
 module.exports = widgetModule;
 
-// helpers
+// SimpleAnalytics helpers
 const parseWidgetParameter = (param: string) => {
     // handles: <apiKey>@<website> || @<website> || <website>
     const paramParts = param.split("@")
