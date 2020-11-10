@@ -19,7 +19,7 @@ interface Props {
 const useStyles = makeStyles(theme => ({
     code: {
         padding: theme.spacing(3),
-        paddingTop: theme.spacing(5),
+        paddingTop: theme.spacing(8),
         margin: 0,
         borderRadius: theme.shape.borderRadius,
         border: 'solid 1px ' + theme.palette.grey[700],

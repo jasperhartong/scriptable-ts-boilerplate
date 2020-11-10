@@ -2,7 +2,7 @@
 
     const addFlexSpacer = ({ to }) => {
         // @ts-ignore
-        to.addSpacer(null);
+        to.addSpacer();
     };
 
     const SimpleTextWidget = (pretitle, title, subtitle, color) => {

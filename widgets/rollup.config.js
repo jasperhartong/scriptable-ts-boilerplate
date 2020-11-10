@@ -2,8 +2,7 @@ import typescript from '@rollup/plugin-typescript';
 import { readdirSync } from "fs";
 import { parse } from "path";
 
-const WIDGET_LOADER_BANNER = `
-// Variables used by Scriptable.
+const WIDGET_LOADER_BANNER = `// Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: __iconColor__; icon-glyph: __iconGlyph__;
 `;

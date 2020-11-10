@@ -1,5 +1,6 @@
 import { DefaultColor } from "code/utils/color";
 import { getWidgetSizeInPoint } from "code/utils/sizing";
+import { ErrorImage } from "./ErrorImage";
 
 interface Props {
     series: number[],
@@ -18,6 +19,9 @@ export const SparkBarImage = (
         lastBarColor = Color.orange()
     }: Props
 ) => {
+    if (series.length === 0) {
+        return ErrorImage({ error: "No Data", width, height })
+    }
     const widgetSize = getWidgetSizeInPoint()
     const dc = new DrawContext()
     dc.size = new Size(width || widgetSize?.width || 200, height || widgetSize?.height || 200)
@@ -27,8 +31,9 @@ export const SparkBarImage = (
     const barColor = color
     const barWidth = (dc.size.width) / series.length - 4
     const maxValue = Math.max(...series);
+    // Calculate the rendered height of the bars, make sure they're at least 1 pixel
     const pixelMultiplier = dc.size.height / maxValue;
-    const pixelValues = series.map(v => v * pixelMultiplier);
+    const pixelValues = series.map(v => Math.max(v * pixelMultiplier, 1));
 
     // Draw the bars
     pixelValues.forEach((v, i) => {

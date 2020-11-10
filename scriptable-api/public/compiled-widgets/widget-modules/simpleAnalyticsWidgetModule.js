@@ -85,108 +85,120 @@
         return image;
     };
 
+    const addFlexSpacer = ({ to }) => {
+        // @ts-ignore
+        to.addSpacer();
+    };
+
+    const SimpleSparkBarWidget = ({ series, header, title, description, backgroundColor, barColor, lastBarColor }) => {
+        const widget = new ListWidget();
+        widget.backgroundColor = backgroundColor;
+        // Header
+        const headerTxt = widget.addText(header.text);
+        headerTxt.textColor = header.color;
+        headerTxt.font = Font.systemFont(10);
+        // Vertical Space
+        addFlexSpacer({ to: widget });
+        // BarChart (centered)
+        const barStack = widget.addStack();
+        barStack.layoutHorizontally();
+        addFlexSpacer({ to: barStack });
+        if (series.length > 0) {
+            barStack.addImage(SparkBarImage({
+                series,
+                color: barColor,
+                lastBarColor,
+                height: 100,
+                width: 400
+            }));
+        }
+        addFlexSpacer({ to: barStack });
+        // Vertical Space
+        widget.addSpacer(10);
+        // Title
+        const titleTxt = widget.addText(title.text);
+        titleTxt.textColor = title.color;
+        titleTxt.font = Font.boldSystemFont(16);
+        // Vertical space
+        widget.addSpacer(2);
+        // Description
+        const descriptionText = widget.addText(description.text);
+        descriptionText.textColor = description.color;
+        descriptionText.font = Font.systemFont(12);
+        return widget;
+    };
+
     const RequestWithTimeout = (url, timeoutSeconds = 5) => {
         const request = new Request(url);
         request.timeoutInterval = timeoutSeconds;
         return request;
     };
 
-    const UnsplashImage = async ({ id = "random", width = 600, height = 600 }) => {
-        const req = RequestWithTimeout(`https://source.unsplash.com/${id}/${width}x${height}`);
-        try {
-            return await req.loadImage();
-        }
-        catch (error) {
-            return ErrorImage({ width, height, error });
-        }
-    };
-
-    const addFlexSpacer = ({ to }) => {
-        // @ts-ignore
-        to.addSpacer();
-    };
-
-    const addSymbol = ({ to, symbol = 'applelogo', color = DefaultColor(), size = 20, }) => {
-        const _sym = SFSymbol.named(symbol);
-        const wImg = to.addImage(_sym.image);
-        wImg.tintColor = color;
-        wImg.imageSize = new Size(size, size);
-    };
-
-    const addTextWithSymbolStack = ({ to, text, symbol, textColor = DefaultColor(), symbolColor = DefaultColor(), fontSize = 20, }) => {
-        const _stack = to.addStack();
-        _stack.centerAlignContent();
-        addSymbol({
-            to: _stack,
-            symbol,
-            size: fontSize,
-            color: symbolColor
-        });
-        _stack.addSpacer(3);
-        let _text = _stack.addText(text);
-        _text.textColor = textColor;
-        _text.font = Font.systemFont(fontSize);
-        return _stack;
-    };
-
     const widgetModule = {
         createWidget: async (params) => {
-            const widget = new ListWidget();
-            widget.setPadding(8, 0, 0, 0);
-            widget.backgroundImage = await UnsplashImage({ id: "KuF8-6EbBMs", width: 500, height: 500 });
-            const mainStack = widget.addStack();
-            mainStack.layoutVertically();
-            addFlexSpacer({ to: mainStack });
-            // Start Content
-            const contentStack = mainStack.addStack();
-            contentStack.layoutVertically();
-            contentStack.setPadding(0, 16, 0, 16);
-            contentStack.addImage(SparkBarImage({
-                series: [800000, 780000, 760000, 738000, 680000, 650000, 600000, 554600, 500000, 438000],
-                width: 400,
-                height: 100,
-                color: new Color(Color.white().hex, 0.6),
-                lastBarColor: Color.orange()
-            }));
-            contentStack.addSpacer(8);
-            let title = contentStack.addText("438.000 cases");
-            title.textColor = Color.orange();
-            title.font = Font.semiboldSystemFont(14);
-            contentStack.addSpacer(2);
-            let _text = contentStack.addText("A 50% decrease in the last 10 years");
-            _text.textColor = Color.white();
-            _text.font = Font.systemFont(12);
-            // End Content
-            addFlexSpacer({ to: mainStack });
-            // Footer
-            addStatsStack({ stack: mainStack });
+            var _a;
+            const { website, apiKey } = parseWidgetParameter(params.widgetParameter);
+            // Styling
+            const highlightColor = new Color("#b93545", 1.0);
+            const textColor = new Color("#a4bdc0", 1.0);
+            const backgroundColor = new Color("#20292a", 1);
+            const barColor = new Color("#198c9f", 1);
+            // Fallback data
+            let series = [];
+            let titleText = "No data";
+            let descriptionText = "Check the parameter settings";
+            // Load data
+            const data = await requestSimpleAnalyticsData({ website, apiKey });
+            if (data) {
+                const pageViewsToday = ((_a = data.visits[data.visits.length - 1]) === null || _a === void 0 ? void 0 : _a.pageviews) || 0;
+                series = data.visits.map(visit => visit.pageviews);
+                titleText = `${pageViewsToday} views`;
+                descriptionText = `${data.pageviews} this month`;
+            }
+            const widget = SimpleSparkBarWidget({
+                series,
+                header: { text: website, color: textColor },
+                title: { text: titleText, color: highlightColor },
+                description: { text: descriptionText, color: textColor },
+                backgroundColor,
+                barColor,
+                lastBarColor: highlightColor,
+            });
+            if (website) {
+                // Open Simple Analytics stats when tapped
+                widget.url = `https://simpleanalytics.com/${website}`;
+            }
             return widget;
         }
     };
-    const addStatsStack = ({ stack }) => {
-        const statsStack = stack.addStack();
-        statsStack.centerAlignContent();
-        statsStack.backgroundColor = new Color(Color.black().hex, 0.85);
-        statsStack.setPadding(6, 16, 6, 16);
-        addTextWithSymbolStack({
-            to: statsStack,
-            symbol: "person.crop.circle",
-            text: "0,50",
-            fontSize: 10,
-            textColor: Color.lightGray(),
-            symbolColor: Color.lightGray()
-        });
-        addFlexSpacer({ to: statsStack });
-        addTextWithSymbolStack({
-            to: statsStack,
-            symbol: "network",
-            text: "11K",
-            fontSize: 10,
-            textColor: Color.lightGray(),
-            symbolColor: Color.lightGray()
-        });
-        return statsStack;
-    };
     module.exports = widgetModule;
+    // SimpleAnalytics helpers
+    const parseWidgetParameter = (param) => {
+        // handles: <apiKey>@<website> || @<website> || <website>
+        const paramParts = param.toLowerCase().replace(/ /g, "").split("@");
+        let apiKey = "";
+        let website = "";
+        switch (paramParts.length) {
+            case 1:
+                [website] = paramParts;
+                break;
+            case 2:
+                [apiKey, website] = paramParts;
+                break;
+        }
+        return { apiKey, website };
+    };
+    const formatDateQueryParam = (date) => date.toISOString().split('T')[0];
+    const requestSimpleAnalyticsData = async ({ website, apiKey, daysAgo = 31 }) => {
+        const today = new Date();
+        const startDate = new Date(new Date().setDate(today.getDate() - daysAgo));
+        const url = `https://simpleanalytics.com/${website}.json?version=2&start=${formatDateQueryParam(startDate)}&end=${formatDateQueryParam(today)}`;
+        const req = RequestWithTimeout(url);
+        if (apiKey) {
+            req.headers = { "Api-Key": apiKey };
+        }
+        const data = await req.loadJSON();
+        return req.response.statusCode === 200 ? data : null;
+    };
 
 }());

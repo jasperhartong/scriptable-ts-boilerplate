@@ -1,0 +1,10 @@
+{
+    "name": "Simple Analytics",
+    "description": "Page views widget",
+    "paramLabel": "website / api-key@website",
+    "paramPlaceHolder": "simpleanalytics.com / sa_api_key_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@mywebsite.com",
+    "loaderArgs": {
+        "iconColor": "gray",
+        "iconGlyph": "icon-graph"
+    }
+}

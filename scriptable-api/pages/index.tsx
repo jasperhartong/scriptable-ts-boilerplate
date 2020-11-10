@@ -248,6 +248,7 @@ export const getStaticProps: GetStaticProps<{}, {}> = async ({ params }) => {
   const widgetLoaderPath = resolve('./public/compiled-widgets/widgetLoader.js');
   const widgetModuleModuleNames = [
     "stickyWidgetModule",
+    "simpleAnalyticsWidgetModule",
     "covid19WidgetModule",
     "kitchenSinkWidgetModule"
   ]

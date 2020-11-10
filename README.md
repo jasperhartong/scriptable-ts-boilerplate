@@ -42,7 +42,7 @@ import { IWidgetModule } from "code/utils/interfaces";
 
 const widgetModule: IWidgetModule = {
     createWidget: async (params) => {
-        let widget = new ListWidget()
+        const widget = new ListWidget()
         // await data
         // do something with `params.widgetParameter`
         // create the widget
