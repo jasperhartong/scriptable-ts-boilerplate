@@ -156,7 +156,7 @@
                 titleText = `${pageViewsToday} views`;
                 descriptionText = `${data.pageviews} this month`;
             }
-            return SimpleSparkBarWidget({
+            const widget = SimpleSparkBarWidget({
                 series,
                 header: { text: website, color: textColor },
                 title: { text: titleText, color: highlightColor },
@@ -165,6 +165,11 @@
                 barColor,
                 lastBarColor: highlightColor,
             });
+            if (website) {
+                // Open Simple Analytics stats when tapped
+                widget.url = `https://simpleanalytics.com/${website}`;
+            }
+            return widget;
         }
     };
     module.exports = widgetModule;
