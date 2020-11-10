@@ -45,7 +45,7 @@ export const SimpleSparkBarWidget = ({ series, header, title, description, backg
     // Vertical Space
     widget.addSpacer(10)
 
-    // Title: Today
+    // Title
     const titleTxt = widget.addText(title.text)
     titleTxt.textColor = title.color
     titleTxt.font = Font.boldSystemFont(16)
@@ -53,11 +53,10 @@ export const SimpleSparkBarWidget = ({ series, header, title, description, backg
     // Vertical space
     widget.addSpacer(2)
 
-    // Description: Change since yesterday
+    // Description
     const descriptionText = widget.addText(description.text)
     descriptionText.textColor = description.color
     descriptionText.font = Font.systemFont(12)
 
-    // create the widget
     return widget
 }
