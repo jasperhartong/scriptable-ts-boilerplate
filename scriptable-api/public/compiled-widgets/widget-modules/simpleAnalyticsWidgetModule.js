@@ -154,7 +154,7 @@
                 const pageViewsToday = ((_a = data.visits[data.visits.length - 1]) === null || _a === void 0 ? void 0 : _a.pageviews) || 0;
                 series = data.visits.map(visit => visit.pageviews);
                 titleText = `${pageViewsToday} views`;
-                descriptionText = `${data.pageviews} last month`;
+                descriptionText = `${data.pageviews} this month`;
             }
             return SimpleSparkBarWidget({
                 series,
@@ -171,7 +171,7 @@
     // SimpleAnalytics helpers
     const parseWidgetParameter = (param) => {
         // handles: <apiKey>@<website> || @<website> || <website>
-        const paramParts = param.split("@");
+        const paramParts = param.toLowerCase().replace(/ /g, "").split("@");
         let apiKey = "";
         let website = "";
         switch (paramParts.length) {
