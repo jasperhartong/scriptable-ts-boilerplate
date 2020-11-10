@@ -26,7 +26,7 @@ const widgetModule: IWidgetModule = {
             descriptionText = `${data.pageviews} this month`
         }
 
-        return SimpleSparkBarWidget({
+        const widget = SimpleSparkBarWidget({
             series,
             header: { text: website, color: textColor },
             title: { text: titleText, color: highlightColor },
@@ -35,6 +35,13 @@ const widgetModule: IWidgetModule = {
             barColor,
             lastBarColor: highlightColor,
         })
+
+        if (website) {
+            // Open Simple Analytics stats when tapped
+            widget.url = `https://simpleanalytics.com/${website}`
+        }
+
+        return widget
     }
 }
 
