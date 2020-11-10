@@ -7,21 +7,32 @@ import { RequestWithTimeout } from "code/utils/request-utils";
 const widgetModule: IWidgetModule = {
     createWidget: async (params) => {
         const widget = new ListWidget()
-        // Ensure there's always a site set
-        const website = params.widgetParameter || `simpleanalytics.com`
-        const data = await requestSimpleAnalyticsData(website)
-        // TODO: render something if no website is found
+        const { website, apiKey } = parseWidgetParameter(params.widgetParameter)
+
+        // Styling
         const highlightColor = new Color("#b93545", 1.0)
         const textColor = new Color("#a4bdc0", 1.0)
         const backgroundColor = new Color("#20292a", 1)
         const graphColor = new Color("#198c9f", 1)
-        const pageViewsToday = data.visits[data.visits.length - 1]?.pageviews || 0
-        const pageViewsYesterday = data.visits[data.visits.length - 2]?.pageviews || 0
-        const pageViewsChange = pageViewsToday - pageViewsYesterday
 
+        // Fallback data
+        let series: number[] = []
+        let title = "No data"
+        let description = "Check the parameter settings"
+
+        // Load data
+        const data = await requestSimpleAnalyticsData({ website, apiKey })
+        if (data) {
+            const pageViewsToday = data.visits[data.visits.length - 1]?.pageviews || 0
+            series = data.visits.map(visit => visit.pageviews)
+            title = `${pageViewsToday} views`
+            description = `${data.pageviews} last month`
+        }
 
         // General widget config
         widget.backgroundColor = backgroundColor
+
+        /* Widget Layout */
 
         // Header
         const headerTxt = widget.addText(website)
@@ -35,20 +46,22 @@ const widgetModule: IWidgetModule = {
         const barStack = widget.addStack();
         barStack.layoutHorizontally()
         addFlexSpacer({ to: barStack })
-        barStack.addImage(SparkBarImage({
-            series: data.visits.map(visit => visit.pageviews),
-            color: graphColor,
-            lastBarColor: highlightColor,
-            height: 100,
-            width: 400
-        }))
+        if (series.length > 0) {
+            barStack.addImage(SparkBarImage({
+                series,
+                color: graphColor,
+                lastBarColor: highlightColor,
+                height: 100,
+                width: 400
+            }))
+        }
         addFlexSpacer({ to: barStack })
 
         // Vertical Space
         widget.addSpacer(10)
 
         // Title: Today
-        const titleTxt = widget.addText(`${pageViewsToday} today`)
+        const titleTxt = widget.addText(title)
         titleTxt.textColor = highlightColor
         titleTxt.font = Font.boldSystemFont(16)
 
@@ -56,7 +69,7 @@ const widgetModule: IWidgetModule = {
         widget.addSpacer(2)
 
         // Description: Change since yesterday
-        const descriptionText = widget.addText(`${pageViewsChange >= 0 ? "+" : ""}${pageViewsChange} page views`)
+        const descriptionText = widget.addText(description)
         descriptionText.textColor = textColor
         descriptionText.font = Font.systemFont(12)
 
@@ -68,17 +81,40 @@ const widgetModule: IWidgetModule = {
 module.exports = widgetModule;
 
 // helpers
+const parseWidgetParameter = (param: string) => {
+    // handles: <apiKey>@<website> || @<website> || <website>
+    const paramParts = param.split("@")
+    let apiKey: string = "";
+    let website: string = "";
+
+    switch (paramParts.length) {
+        case 1: [website] = paramParts; break;
+        case 2: [apiKey, website] = paramParts; break;
+    }
+
+    return { apiKey, website }
+}
+
 const formatDateQueryParam = (date: Date) =>
     date.toISOString().split('T')[0]
 
-const requestSimpleAnalyticsData = async (website: string) => {
+interface SimpleAnalyticsDataRequest {
+    website: string;
+    apiKey: string;
+    daysAgo?: number
+}
+const requestSimpleAnalyticsData = async (
+    { website, apiKey, daysAgo = 31 }: SimpleAnalyticsDataRequest
+): Promise<SimpleanalyticsData | null> => {
     const today = new Date()
-    const sevenDaysAgo = new Date(new Date().setDate(today.getDate() - 6))
-    const url = `https://simpleanalytics.com/${website}.json?version=2&start=${formatDateQueryParam(sevenDaysAgo)}&end=${formatDateQueryParam(today)}`
+    const startDate = new Date(new Date().setDate(today.getDate() - daysAgo))
+    const url = `https://simpleanalytics.com/${website}.json?version=2&start=${formatDateQueryParam(startDate)}&end=${formatDateQueryParam(today)}`
     const req = RequestWithTimeout(url)
-    // TODO: check if error result
-    const data = (await req.loadJSON()) as SimpleanalyticsData;
-    return data;
+    if (apiKey) {
+        req.headers = { "Api-Key": apiKey }
+    }
+    const data = await req.loadJSON();
+    return req.response.statusCode === 200 ? data as SimpleanalyticsData : null;
 }
 
 // interfaces

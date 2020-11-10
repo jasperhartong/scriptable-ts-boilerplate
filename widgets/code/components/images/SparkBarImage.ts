@@ -1,5 +1,6 @@
 import { DefaultColor } from "code/utils/color";
 import { getWidgetSizeInPoint } from "code/utils/sizing";
+import { ErrorImage } from "./ErrorImage";
 
 interface Props {
     series: number[],
@@ -18,6 +19,9 @@ export const SparkBarImage = (
         lastBarColor = Color.orange()
     }: Props
 ) => {
+    if (series.length === 0) {
+        return ErrorImage({ error: "No Data", width, height })
+    }
     const widgetSize = getWidgetSizeInPoint()
     const dc = new DrawContext()
     dc.size = new Size(width || widgetSize?.width || 200, height || widgetSize?.height || 200)

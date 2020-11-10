@@ -46,7 +46,22 @@
         return widgetSizeInPoint;
     };
 
+    const ErrorImage = ({ error, width, height }) => {
+        const text = `${(error === null || error === void 0 ? void 0 : error.message) || error}`;
+        const dc = new DrawContext();
+        dc.size = new Size(width || 200, height || 200);
+        dc.respectScreenScale = true;
+        dc.opaque = false;
+        dc.setTextColor(Color.red());
+        dc.setFont(Font.semiboldSystemFont(dc.size.width / 10));
+        dc.drawText(text, new Point(dc.size.width / 10, 8));
+        return dc.getImage();
+    };
+
     const SparkBarImage = ({ series, width, height, color = DefaultColor(), lastBarColor = Color.orange() }) => {
+        if (series.length === 0) {
+            return ErrorImage({ error: "No Data", width, height });
+        }
         const widgetSize = getWidgetSizeInPoint();
         const dc = new DrawContext();
         dc.size = new Size(width || (widgetSize === null || widgetSize === void 0 ? void 0 : widgetSize.width) || 200, height || (widgetSize === null || widgetSize === void 0 ? void 0 : widgetSize.height) || 200);
@@ -68,18 +83,6 @@
         });
         const image = dc.getImage();
         return image;
-    };
-
-    const ErrorImage = ({ error, width, height }) => {
-        const text = `Image Error: \n ${(error === null || error === void 0 ? void 0 : error.message) || error}`;
-        const dc = new DrawContext();
-        dc.size = new Size(width || 200, height || 200);
-        dc.respectScreenScale = true;
-        dc.opaque = false;
-        dc.setTextColor(Color.red());
-        dc.setFont(Font.semiboldSystemFont(dc.size.width / 10));
-        dc.drawText(text, new Point(dc.size.width / 10, 8));
-        return dc.getImage();
     };
 
     const RequestWithTimeout = (url, timeoutSeconds = 5) => {

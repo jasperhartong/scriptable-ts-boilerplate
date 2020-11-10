@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const ErrorImage = ({ error, width, height }: Props) => {
-    const text = `Image Error: \n ${error?.message || error}`
+    const text = `${error?.message || error}`
     const dc = new DrawContext()
     dc.size = new Size(width || 200, height || 200)
     dc.respectScreenScale = true

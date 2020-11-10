@@ -46,7 +46,22 @@
         return widgetSizeInPoint;
     };
 
+    const ErrorImage = ({ error, width, height }) => {
+        const text = `${(error === null || error === void 0 ? void 0 : error.message) || error}`;
+        const dc = new DrawContext();
+        dc.size = new Size(width || 200, height || 200);
+        dc.respectScreenScale = true;
+        dc.opaque = false;
+        dc.setTextColor(Color.red());
+        dc.setFont(Font.semiboldSystemFont(dc.size.width / 10));
+        dc.drawText(text, new Point(dc.size.width / 10, 8));
+        return dc.getImage();
+    };
+
     const SparkBarImage = ({ series, width, height, color = DefaultColor(), lastBarColor = Color.orange() }) => {
+        if (series.length === 0) {
+            return ErrorImage({ error: "No Data", width, height });
+        }
         const widgetSize = getWidgetSizeInPoint();
         const dc = new DrawContext();
         dc.size = new Size(width || (widgetSize === null || widgetSize === void 0 ? void 0 : widgetSize.width) || 200, height || (widgetSize === null || widgetSize === void 0 ? void 0 : widgetSize.height) || 200);
@@ -83,21 +98,29 @@
 
     const widgetModule = {
         createWidget: async (params) => {
-            var _a, _b;
+            var _a;
             const widget = new ListWidget();
-            // Ensure there's always a site set
-            const website = params.widgetParameter || `simpleanalytics.com`;
-            const data = await requestSimpleAnalyticsData(website);
-            // TODO: render something if no website is found
+            const { website, apiKey } = parseWidgetParameter(params.widgetParameter);
+            // Styling
             const highlightColor = new Color("#b93545", 1.0);
             const textColor = new Color("#a4bdc0", 1.0);
             const backgroundColor = new Color("#20292a", 1);
             const graphColor = new Color("#198c9f", 1);
-            const pageViewsToday = ((_a = data.visits[data.visits.length - 1]) === null || _a === void 0 ? void 0 : _a.pageviews) || 0;
-            const pageViewsYesterday = ((_b = data.visits[data.visits.length - 2]) === null || _b === void 0 ? void 0 : _b.pageviews) || 0;
-            const pageViewsChange = pageViewsToday - pageViewsYesterday;
+            // Fallback data
+            let series = [];
+            let title = "No data";
+            let description = "Check the parameter settings";
+            // Load data
+            const data = await requestSimpleAnalyticsData({ website, apiKey });
+            if (data) {
+                const pageViewsToday = ((_a = data.visits[data.visits.length - 1]) === null || _a === void 0 ? void 0 : _a.pageviews) || 0;
+                series = data.visits.map(visit => visit.pageviews);
+                title = `${pageViewsToday} views`;
+                description = `${data.pageviews} last month`;
+            }
             // General widget config
             widget.backgroundColor = backgroundColor;
+            /* Widget Layout */
             // Header
             const headerTxt = widget.addText(website);
             headerTxt.textColor = textColor;
@@ -108,24 +131,26 @@
             const barStack = widget.addStack();
             barStack.layoutHorizontally();
             addFlexSpacer({ to: barStack });
-            barStack.addImage(SparkBarImage({
-                series: data.visits.map(visit => visit.pageviews),
-                color: graphColor,
-                lastBarColor: highlightColor,
-                height: 100,
-                width: 400
-            }));
+            if (series.length > 0) {
+                barStack.addImage(SparkBarImage({
+                    series,
+                    color: graphColor,
+                    lastBarColor: highlightColor,
+                    height: 100,
+                    width: 400
+                }));
+            }
             addFlexSpacer({ to: barStack });
             // Vertical Space
             widget.addSpacer(10);
             // Title: Today
-            const titleTxt = widget.addText(`${pageViewsToday} today`);
+            const titleTxt = widget.addText(title);
             titleTxt.textColor = highlightColor;
             titleTxt.font = Font.boldSystemFont(16);
             // Vertical space
             widget.addSpacer(2);
             // Description: Change since yesterday
-            const descriptionText = widget.addText(`${pageViewsChange >= 0 ? "+" : ""}${pageViewsChange} page views`);
+            const descriptionText = widget.addText(description);
             descriptionText.textColor = textColor;
             descriptionText.font = Font.systemFont(12);
             // create the widget
@@ -134,15 +159,32 @@
     };
     module.exports = widgetModule;
     // helpers
+    const parseWidgetParameter = (param) => {
+        // handles: <apiKey>@<website> || @<website> || <website>
+        const paramParts = param.split("@");
+        let apiKey = "";
+        let website = "";
+        switch (paramParts.length) {
+            case 1:
+                [website] = paramParts;
+                break;
+            case 2:
+                [apiKey, website] = paramParts;
+                break;
+        }
+        return { apiKey, website };
+    };
     const formatDateQueryParam = (date) => date.toISOString().split('T')[0];
-    const requestSimpleAnalyticsData = async (website) => {
+    const requestSimpleAnalyticsData = async ({ website, apiKey, daysAgo = 31 }) => {
         const today = new Date();
-        const sevenDaysAgo = new Date(new Date().setDate(today.getDate() - 6));
-        const url = `https://simpleanalytics.com/${website}.json?version=2&start=${formatDateQueryParam(sevenDaysAgo)}&end=${formatDateQueryParam(today)}`;
+        const startDate = new Date(new Date().setDate(today.getDate() - daysAgo));
+        const url = `https://simpleanalytics.com/${website}.json?version=2&start=${formatDateQueryParam(startDate)}&end=${formatDateQueryParam(today)}`;
         const req = RequestWithTimeout(url);
-        // TODO: check if error result
-        const data = (await req.loadJSON());
-        return data;
+        if (apiKey) {
+            req.headers = { "Api-Key": apiKey };
+        }
+        const data = await req.loadJSON();
+        return req.response.statusCode === 200 ? data : null;
     };
 
 }());
