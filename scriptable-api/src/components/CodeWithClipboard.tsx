@@ -12,7 +12,7 @@ import { useClipboard } from "use-clipboard-copy";
 
 interface Props {
     value: string;
-    collapsedHeight: number;
+    collapsedSize: number;
     inActive: boolean;
 }
 
@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
 
 
 export const CodeWithClipboard = (
-    { value, collapsedHeight, inActive }: Props
+    { value, collapsedSize, inActive }: Props
 ) => {
     const [isHighlighted, setIsHighlighted] = useState<boolean>(false);
     const [isSupported, setIsSupported] = useState<boolean>(false);
@@ -91,7 +91,7 @@ export const CodeWithClipboard = (
     return (
         <Fade in={isHighlighted} timeout={800}>
             <div className={classes.root} >
-                <Collapse in={!isCollapsed} collapsedHeight={collapsedHeight}>
+                <Collapse in={!isCollapsed} collapsedSize={collapsedSize}>
                     <div >
                         {!inActive && isSupported && (
                             <Button variant="contained" color="primary" onClick={handleCopy} className={classes.button}>
