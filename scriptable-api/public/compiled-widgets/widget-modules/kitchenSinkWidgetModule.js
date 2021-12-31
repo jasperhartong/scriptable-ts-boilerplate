@@ -189,4 +189,4 @@
     };
     module.exports = widgetModule;
 
-}());
+})();

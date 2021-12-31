@@ -201,4 +201,4 @@
         return req.response.statusCode === 200 ? data : null;
     };
 
-}());
+})();
