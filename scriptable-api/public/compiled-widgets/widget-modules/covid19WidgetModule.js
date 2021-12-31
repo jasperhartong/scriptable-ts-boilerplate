@@ -1,7 +1,6 @@
 (function () {
 
     const addFlexSpacer = ({ to }) => {
-        // @ts-ignore
         to.addSpacer();
     };
 
