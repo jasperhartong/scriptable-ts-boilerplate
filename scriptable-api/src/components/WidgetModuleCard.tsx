@@ -70,12 +70,7 @@ export const WidgetModuleCard = ({
         [classes.root]: true,
         [classes.rootIsSelected]: isSelected,
       })}
-      onClick={(event) => {
-        // Scroll into view
-        event.currentTarget.parentElement.scrollLeft =
-          event.currentTarget.offsetLeft - 16;
-        onSelect();
-      }}
+      onClick={onSelect}
     >
       <div className={classes.details}>
         <CardContent className={classes.content}>
