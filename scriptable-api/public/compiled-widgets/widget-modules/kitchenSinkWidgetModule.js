@@ -102,7 +102,6 @@
     };
 
     const addFlexSpacer = ({ to }) => {
-        // @ts-ignore
         to.addSpacer();
     };
 
@@ -189,4 +188,4 @@
     };
     module.exports = widgetModule;
 
-}());
+})();

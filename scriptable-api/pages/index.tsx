@@ -185,7 +185,7 @@ export default function Page({ widgetLoader, widgetModules }: PageProps) {
             key={widgetLoaderWithModule}
             value={selectedModule ? widgetLoaderWithModule : "// First pick a widget.."}
             inActive={!selectedModule}
-            collapsedHeight={selectedModule ? 300 : 100}
+            collapsedSize={selectedModule ? 300 : 100}
           />
 
           <div style={{ margin: 20 }} />

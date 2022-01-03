@@ -9,14 +9,14 @@
     "extends": "@scriptable-ios"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^6.1.0",
+    "@rollup/plugin-typescript": "^8.3.0",
     "@scriptable-ios/eslint-config": "file:eslint-config",
-    "eslint": "latest",
-    "rollup": "^2.32.1",
-    "tslib": "^2.0.3",
-    "typescript": "^4.0.5"
+    "eslint": "8.5.0",
+    "rollup": "^2.62.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@types/scriptable-ios": "^1.6.0"
+    "@types/scriptable-ios": "^1.6.4"
   }
 }

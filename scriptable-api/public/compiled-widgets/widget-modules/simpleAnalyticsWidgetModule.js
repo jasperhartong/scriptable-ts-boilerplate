@@ -86,7 +86,6 @@
     };
 
     const addFlexSpacer = ({ to }) => {
-        // @ts-ignore
         to.addSpacer();
     };
 
@@ -201,4 +200,4 @@
         return req.response.statusCode === 200 ? data : null;
     };
 
-}());
+})();
